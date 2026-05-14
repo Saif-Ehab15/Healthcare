@@ -1,0 +1,422 @@
+/* --- Modern Healthcare UI CSS --- */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    --text-dark: #f8fafc;
+    --text-muted: #cbd5e1;
+    --primary-gradient: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+    --bg-light: #0f172a;
+    --card-bg: rgba(30, 41, 59, 0.8);
+    --shadow-soft: 0 10px 25px rgba(0, 0, 0, 0.2);
+    --shadow-hover: 0 20px 40px rgba(0, 242, 254, 0.15);
+    --transition-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --border-radius: 20px;
+}
+
+body {
+    background-color: var(--bg-light);
+    font-family: 'Outfit', sans-serif;
+    color: var(--text-dark);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* --- Health Awareness Section --- */
+.health-awareness-section {
+    padding: 100px 5%;
+    background: radial-gradient(circle at top right, rgba(0, 242, 254, 0.05), transparent 40%),
+        radial-gradient(circle at bottom left, rgba(79, 172, 254, 0.05), transparent 40%);
+    position: relative;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    background-color: #0f172a;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.section-subtitle {
+    display: inline-block;
+    padding: 8px 16px;
+    background: rgba(0, 242, 254, 0.1);
+    color: #38bdf8;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+}
+
+.section-title {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    justify-content: center;
+}
+
+.section-description {
+    font-size: 1.15rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* --- Awareness Grid --- */
+.awareness-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.awareness-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    border-radius: var(--border-radius);
+    padding: 40px 30px;
+    text-align: center;
+    box-shadow: var(--shadow-soft);
+    transition: var(--transition-smooth);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.awareness-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
+    z-index: -1;
+}
+
+.awareness-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-hover);
+    border-color: rgba(0, 242, 254, 0.3);
+}
+
+.icon-wrapper {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(0, 242, 254, 0.1);
+    color: #4facfe;
+    transition: var(--transition-smooth);
+}
+
+.awareness-card:hover .icon-wrapper {
+    transform: scale(1.1) rotate(5deg);
+    background: var(--primary-gradient);
+    color: white;
+}
+
+.icon-wrapper svg {
+    width: 40px;
+    height: 40px;
+}
+
+/* Individual Icon Styles for some variance */
+.heart-card .icon-wrapper {
+    color: #ff6b6b;
+    background: rgba(255, 107, 107, 0.1);
+}
+
+.heart-card:hover .icon-wrapper {
+    background: linear-gradient(135deg, #ff8e53, #ff6b6b);
+    color: white;
+}
+
+.liver-card .icon-wrapper {
+    color: #d05ce3;
+    background: rgba(156, 39, 176, 0.1);
+}
+
+.liver-card:hover .icon-wrapper {
+    background: linear-gradient(135deg, #d05ce3, #9c27b0);
+    color: white;
+}
+
+.awareness-card h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: var(--text-dark);
+}
+
+.awareness-card p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 25px;
+}
+
+.card-tip {
+    display: inline-block;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+/* --- Health Stats --- */
+.health-stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-soft);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.stat-item {
+    text-align: center;
+    flex: 1;
+    min-width: 200px;
+}
+
+.stat-number {
+    display: block;
+    font-size: 3.5rem;
+    font-weight: 800;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1;
+    margin-bottom: 10px;
+}
+
+.stat-label {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+.divider {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+    margin: 0;
+}
+
+/* --- Trust Section --- */
+.trust-section {
+    padding: 80px 5%;
+    background: var(--bg-light);
+    text-align: center;
+}
+
+.trust-heading {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 50px;
+    color: var(--text-dark);
+}
+
+.trust-cards-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
+
+.trust-card {
+    flex: 1;
+    min-width: 250px;
+    padding: 40px 30px;
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-soft);
+    transition: var(--transition-smooth);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.trust-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    border-color: rgba(0, 242, 254, 0.2);
+}
+
+.card-icon-wrapper {
+    width: 60px;
+    height: 60px;
+    background: rgba(0, 242, 254, 0.1);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-icon {
+    font-size: 1.8rem;
+    color: #4facfe;
+}
+
+.card-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--text-dark);
+}
+
+.card-description {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* --- Specializations Section --- */
+.specializations-section {
+    padding: 80px 5%;
+    text-align: center;
+    background: var(--bg-light);
+}
+
+.special-head {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 50px;
+    color: var(--text-dark);
+}
+
+.special-cards {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.special-card {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 30px;
+    min-width: 180px;
+    box-shadow: var(--shadow-soft);
+    transition: var(--transition-smooth);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.special-card:hover {
+    transform: translateY(-8px);
+    border-color: #00f2fe;
+    box-shadow: var(--shadow-hover);
+}
+
+.icon-circle {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    margin-left: auto;
+    margin-right: auto;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+}
+
+.spec-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+/* --- Doctors Marquee --- */
+.marquee-container {
+    padding: 80px 0;
+    background: var(--bg-light);
+    text-align: center;
+}
+
+.marquee-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 40px;
+    padding: 0 5%;
+    color: var(--text-dark);
+}
+
+.doctor-card {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    margin: 0 15px;
+    width: 280px;
+    text-align: center;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.doctor-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 15px;
+    border: 3px solid rgba(0, 242, 254, 0.5);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.doctor-info h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: var(--text-dark);
+}
+
+.doctor-spec {
+    color: #4facfe;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 2.2rem;
+    }
+
+    .health-awareness-section {
+        padding: 60px 5%;
+    }
+
+    .stat-item {
+        min-width: 100%;
+    }
+
+    .awareness-grid,
+    .trust-cards-container {
+        gap: 20px;
+    }
+}

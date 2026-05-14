@@ -1,0 +1,139 @@
+.departmentsContainer {
+  padding: 40px 5%;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: 'Outfit', sans-serif;
+  color: #f8fafc;
+}
+
+.header {
+  color: #f8fafc;
+  margin-bottom: 2.5rem;
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.addCard {
+  background: rgba(30, 41, 59, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 24px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 2.5rem;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.inputGroup {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.input {
+  padding: 16px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  font-size: 1.1rem;
+  width: 350px;
+  color: #fff;
+  font-family: 'Outfit', sans-serif;
+  transition: all 0.3s ease;
+}
+
+.input:focus {
+  border-color: #00f2fe;
+  box-shadow: 0 0 0 3px rgba(0, 242, 254, 0.2);
+  outline: none;
+}
+
+.addButton {
+  background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+  color: white;
+  border: none;
+  padding: 16px 30px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 5px 15px rgba(0, 242, 254, 0.2);
+}
+
+.addButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0, 242, 254, 0.4);
+}
+
+.departmentsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.departmentCard {
+  background: rgba(30, 41, 59, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  padding: 2.5rem;
+  text-align: center;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.departmentCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0, 242, 254, 0.15);
+  border-color: rgba(0, 242, 254, 0.3);
+}
+
+.departmentName {
+  font-size: 1.6rem;
+  color: #f8fafc;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+}
+
+.deleteButton {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #f87171;
+  padding: 10px 25px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.deleteButton:hover {
+  background: #ef4444;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(239, 68, 68, 0.3);
+}
+
+.emptyState {
+  text-align: center;
+  color: #94a3b8;
+  font-weight: 500;
+  font-size: 1.2rem;
+  padding: 4rem;
+  background: rgba(30, 41, 59, 0.4);
+  border-radius: 20px;
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+}

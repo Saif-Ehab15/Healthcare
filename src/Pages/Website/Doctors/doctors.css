@@ -1,0 +1,167 @@
+/* --- Modern Healthcare UI CSS: All Doctors --- */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+.main-page {
+  background-color: var(--bg-main, #0f172a);
+  min-height: 100vh;
+  padding: 60px 5%;
+  font-family: 'Outfit', sans-serif;
+  color: #f8fafc;
+  margin-top: 35px;
+}
+
+.search-section {
+  max-width: 750px;
+  margin: 0 auto 60px;
+  position: relative;
+  z-index: 10;
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.search-section:hover {
+  transform: translateY(-3px);
+}
+
+.search-section::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 45px;
+  background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+  z-index: -1;
+  opacity: 0.3;
+  filter: blur(15px);
+  transition: opacity 0.4s ease;
+}
+
+.search-section:hover::after {
+  opacity: 0.6;
+}
+
+.doctors-search-input {
+  width: 100%;
+  padding: 20px 30px 20px 65px;
+  border-radius: 45px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  background: rgba(15, 23, 42, 0.85) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2300f2fe' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E") no-repeat 25px center;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: #f8fafc;
+  font-size: 1.2rem;
+  font-family: 'Outfit', sans-serif;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 2px 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-sizing: border-box;
+}
+
+.doctors-search-input::placeholder {
+  color: #94a3b8;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.doctors-search-input:focus::placeholder {
+  opacity: 0.4;
+}
+
+.doctors-search-input:focus {
+  outline: none;
+  border-color: #00f2fe;
+  background-color: rgba(15, 23, 42, 0.95);
+  box-shadow: 0 0 0 4px rgba(0, 242, 254, 0.2), inset 0 2px 15px rgba(0, 0, 0, 0.3);
+}
+
+.pets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.pets-grid p {
+  text-align: center;
+  grid-column: 1 / -1;
+  font-size: 1.5rem;
+  color: #cbd5e1;
+  margin-top: 50px;
+}
+
+.doctor-box {
+  background: rgba(30, 41, 59, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 30px 20px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.doctor-box:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0, 242, 254, 0.15);
+  border-color: rgba(0, 242, 254, 0.3);
+}
+
+.doctor-image-container {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 8px 25px rgba(0, 242, 254, 0.2);
+}
+
+.doctor-image-container img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(15, 23, 42, 1);
+}
+
+.doctor-name {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0 0 8px;
+  background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.doctor-specialization {
+  color: #cbd5e1;
+  font-size: 1.05rem;
+  margin-bottom: 25px;
+}
+
+.details-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #f8fafc;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.details-btn:hover {
+  background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+  border-color: transparent;
+  box-shadow: 0 5px 15px rgba(0, 242, 254, 0.3);
+  color: #fff;
+  transform: translateY(-2px);
+}

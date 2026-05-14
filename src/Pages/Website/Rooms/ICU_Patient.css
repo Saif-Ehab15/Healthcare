@@ -1,0 +1,183 @@
+/* --- ICU_Patient.css: Modern Healthcare UI --- */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --bg-dark: #0f172a;
+  --bg-card: rgba(30, 41, 59, 0.7);
+  --primary-neon: #00f2fe;
+  --secondary-neon: #4facfe;
+  --text-main: #f8fafc;
+  --text-dim: #94a3b8;
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --gradient-glow: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+  --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.Icu-container {
+  padding: 80px 30px;
+  font-family: 'Outfit', sans-serif;
+  background-color: var(--bg-dark);
+  min-height: 100vh;
+  margin-top: 0;
+  color: var(--text-main);
+  animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.Icu-page-title {
+  text-align: center;
+  margin-bottom: 60px;
+  font-size: 3rem;
+  font-weight: 800;
+  background: var(--gradient-glow);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+  padding-bottom: 20px;
+}
+
+.Icu-page-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background: var(--gradient-glow);
+  border-radius: 2px;
+}
+
+.Icu-grid {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.Icu-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 28px;
+  padding: 40px;
+  width: 320px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.Icu-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+}
+
+.Icu-card:hover {
+  transform: translateY(-10px);
+  border-color: rgba(0, 242, 254, 0.3);
+  box-shadow: 0 40px 80px rgba(0, 242, 254, 0.1);
+}
+
+.Icu-card-title {
+  margin: 0 0 30px 0;
+  padding-bottom: 15px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 1.8rem;
+  font-weight: 700;
+  text-align: center;
+  transition: var(--transition);
+}
+
+.Icu-card:hover .Icu-card-title {
+  color: var(--primary-neon);
+}
+
+.Icu-stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 18px 0;
+  font-size: 1.15rem;
+  color: var(--text-dim);
+}
+
+.Icu-total-value {
+  font-weight: 700;
+  color: #fff;
+}
+
+.Icu-reserved-value {
+  font-weight: 700;
+  color: #ff6b6b;
+  text-shadow: 0 0 10px rgba(255, 107, 107, 0.3);
+}
+
+.Icu-available-value {
+  font-weight: 700;
+  color: #51cf66;
+  text-shadow: 0 0 10px rgba(81, 207, 102, 0.3);
+}
+
+.Icu-bar-container {
+  height: 10px;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 100px;
+  margin-top: 30px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.Icu-bar-fill {
+  height: 100%;
+  border-radius: 100px;
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+}
+
+.Icu-center-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 1.5rem;
+  color: var(--text-dim);
+  background-color: var(--bg-dark);
+}
+
+.Icu-error-message {
+  color: #ff6b6b;
+}
+
+@media (max-width: 768px) {
+  .Icu-page-title {
+    font-size: 2.2rem;
+  }
+
+  .Icu-card {
+    width: 100%;
+    max-width: 380px;
+  }
+}

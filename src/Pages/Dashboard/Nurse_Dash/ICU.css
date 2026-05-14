@@ -1,0 +1,230 @@
+/* --- Modern Healthcare UI CSS: Nurse & Staff ICU Dashboard --- */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+.icu-container {
+    padding: 40px;
+    background-color: #0f172a;
+    border-radius: 12px;
+    height: 100%;
+    min-height: calc(100vh - 100px);
+    font-family: 'Outfit', sans-serif;
+    color: #f8fafc;
+    animation: fadeIn 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.icu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 20px;
+}
+
+.icu-header h2 {
+    margin: 0;
+    font-size: 2.2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.icu-subtitle {
+    color: #94a3b8;
+    margin-bottom: 30px;
+    font-size: 1.1rem;
+}
+
+/* Connection Status */
+.connection-status {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.connection-status.online {
+    background-color: rgba(74, 222, 128, 0.15);
+    color: #4ade80;
+    border: 1px solid rgba(74, 222, 128, 0.3);
+}
+
+.connection-status.offline {
+    background-color: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.online .status-dot {
+    background-color: #4ade80;
+    box-shadow: 0 0 10px #4ade80;
+    animation: pulse 2s infinite;
+}
+
+.offline .status-dot {
+    background-color: #ef4444;
+    box-shadow: 0 0 10px #ef4444;
+}
+
+/* Room Grid */
+.icu-room-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+    margin-top: 25px;
+}
+
+/* Room Card */
+.icu-room-card {
+    background: rgba(30, 41, 59, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 4px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.icu-room-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+.icu-room-card.available {
+    border-top-color: #4ade80;
+}
+
+.icu-room-card.busy {
+    border-top-color: #ef4444;
+    background: rgba(239, 68, 68, 0.05);
+}
+
+.room-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.room-type {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #cbd5e1;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+
+.room-number {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #f8fafc;
+}
+
+.room-body {
+    margin-bottom: 25px;
+}
+
+.room-dept {
+    display: flex;
+    align-items: center;
+    color: #94a3b8;
+    font-size: 1.05rem;
+    font-weight: 500;
+    margin: 0;
+}
+
+.dept-icon {
+    font-style: normal;
+    margin-right: 10px;
+    font-size: 1.3rem;
+}
+
+.room-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 20px;
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 10px 0;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.badge-available {
+    background-color: rgba(74, 222, 128, 0.15);
+    color: #4ade80;
+}
+
+.badge-busy {
+    background-color: rgba(239, 68, 68, 0.15);
+    color: #fca5a5;
+}
+
+.icu-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    font-size: 1.4rem;
+    color: #cbd5e1;
+    font-family: 'Outfit', sans-serif;
+}
+
+.no-rooms-msg {
+    text-align: center;
+    padding: 50px;
+    background: rgba(30, 41, 59, 0.6);
+    border-radius: 20px;
+    color: #94a3b8;
+    font-size: 1.2rem;
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.4);
+    }
+
+    70% {
+        box-shadow: 0 0 0 8px rgba(74, 222, 128, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(74, 222, 128, 0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

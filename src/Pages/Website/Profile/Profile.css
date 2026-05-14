@@ -1,0 +1,754 @@
+/* --- Ultra Premium Modern Healthcare UI CSS: Profile --- */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    --bg-dark: #030712;
+    --bg-card: rgba(17, 24, 39, 0.4);
+    --primary-neon: #00f2fe;
+    --secondary-neon: #4facfe;
+    --accent-glow: rgba(0, 242, 254, 0.15);
+    --text-main: #f8fafc;
+    --text-dim: #94a3b8;
+    --text-muted: #64748b;
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-highlight: rgba(255, 255, 255, 0.15);
+    --gradient-glow: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+    --danger-glow: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+    --warning-glow: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+    --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 242, 254, 0.3);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 242, 254, 0.6);
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: 'Outfit', sans-serif;
+    margin: 0;
+    line-height: 1.6;
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::before,
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+}
+
+body::before {
+    background: radial-gradient(circle at 15% 50%, rgba(0, 242, 254, 0.08), transparent 40%),
+        radial-gradient(circle at 85% 30%, rgba(79, 172, 254, 0.08), transparent 40%);
+    animation: drift 15s ease-in-out infinite alternate;
+}
+
+body::after {
+    background: radial-gradient(circle at 50% 80%, rgba(0, 242, 254, 0.05), transparent 50%);
+    animation: drift 20s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes drift {
+    0% {
+        transform: translateY(0) scale(1);
+    }
+
+    100% {
+        transform: translateY(-20px) scale(1.05);
+    }
+}
+
+/* --- Layout Container --- */
+.profile-page-container {
+    max-width: 1400px;
+    margin: 100px auto 60px;
+    padding: 0 30px;
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 40px;
+    align-items: start;
+    animation: fadeUp 0.8s ease-out;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 1100px) {
+    .profile-page-container {
+        grid-template-columns: 1fr;
+        margin-top: 80px;
+    }
+}
+
+/* --- Sidebar / Patient Info --- */
+.profile-sidebar {
+    position: sticky;
+    top: 100px;
+    z-index: 10;
+}
+
+.patient-info-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid var(--glass-border);
+    border-radius: 30px;
+    padding: 50px 30px;
+    text-align: center;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    position: relative;
+    transition: var(--transition-bounce);
+    overflow: hidden;
+}
+
+.patient-info-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+    transform: skewX(-20deg);
+    transition: 0.7s;
+}
+
+.patient-info-card:hover {
+    border-color: rgba(0, 242, 254, 0.4);
+    transform: translateY(-8px);
+    box-shadow: 0 30px 70px rgba(0, 242, 254, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.patient-info-card:hover::before {
+    left: 150%;
+}
+
+.profile-avatar-container {
+    position: relative;
+    width: 160px;
+    height: 160px;
+    margin: 0 auto 30px;
+}
+
+.profile-avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    padding: 4px;
+    background: var(--bg-dark);
+    position: relative;
+    z-index: 2;
+    transition: var(--transition);
+}
+
+.profile-avatar-container::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    background: var(--gradient-glow);
+    border-radius: 50%;
+    z-index: 1;
+    animation: spin 4s linear infinite;
+}
+
+.profile-avatar-container::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    background: var(--gradient-glow);
+    border-radius: 50%;
+    z-index: 0;
+    filter: blur(15px);
+    opacity: 0.6;
+    animation: spin 4s linear infinite reverse;
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.profile-avatar-container:hover .profile-avatar {
+    transform: scale(1.05);
+}
+
+.patient-name {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    background: var(--text-main);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    letter-spacing: -0.5px;
+}
+
+.patient-detail {
+    color: var(--text-dim);
+    font-size: 1.05rem;
+    margin: 8px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: var(--transition);
+}
+
+.patient-detail:hover {
+    color: var(--text-main);
+}
+
+.patient-detail::before {
+    content: '•';
+    color: var(--primary-neon);
+    font-weight: bold;
+    text-shadow: 0 0 10px var(--primary-neon);
+}
+
+.edit-profile-btn {
+    width: 100%;
+    margin-top: 35px;
+    padding: 16px;
+    border: none;
+    border-radius: 16px;
+    background: rgba(0, 242, 254, 0.05);
+    color: var(--primary-neon);
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border: 1px solid rgba(0, 242, 254, 0.3);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.edit-profile-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    background: var(--gradient-glow);
+    transition: all 0.5s ease;
+    transform: translate(-50%, -50%) scale(0);
+    border-radius: 50%;
+    z-index: 0;
+}
+
+.edit-profile-btn span {
+    position: relative;
+    z-index: 1;
+}
+
+.edit-profile-btn:hover {
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 10px 25px rgba(0, 242, 254, 0.4);
+    transform: translateY(-3px);
+}
+
+.edit-profile-btn:hover::before {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.sidebar-divider {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    margin: 40px 0;
+}
+
+/* --- Main Content: History --- */
+.profile-main-content {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.history-title {
+    font-size: 3rem;
+    font-weight: 900;
+    margin: 0 0 20px 0;
+    letter-spacing: -1.5px;
+    position: relative;
+    display: inline-block;
+    background: var(--gradient-glow);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 15px rgba(0, 242, 254, 0.3));
+}
+
+.history-title::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 80px;
+    height: 5px;
+    background: var(--gradient-glow);
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+}
+
+.history-list {
+    display: grid;
+    gap: 30px;
+}
+
+.history-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 28px;
+    padding: 40px;
+    position: relative;
+    transition: var(--transition-bounce);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.6s ease-out backwards;
+}
+
+.history-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.history-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.history-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.history-card:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.history-card:hover {
+    transform: translateY(-5px) scale(1.01);
+    border-color: rgba(0, 242, 254, 0.3);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(0, 242, 254, 0.05);
+}
+
+.history-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.doctor-name {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #fff;
+    margin: 0;
+}
+
+.appointment-date {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--primary-neon);
+    background: rgba(0, 242, 254, 0.1);
+    padding: 8px 18px;
+    border-radius: 100px;
+    border: 1px solid rgba(0, 242, 254, 0.2);
+    box-shadow: 0 0 15px rgba(0, 242, 254, 0.1);
+}
+
+.doctor-specialization {
+    color: var(--secondary-neon);
+    font-size: 1.1rem;
+    margin-top: -10px;
+    margin-bottom: 25px;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.appointment-summary {
+    font-size: 1.1rem;
+    color: var(--text-dim);
+    line-height: 1.8;
+    margin-bottom: 30px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    border-radius: 16px;
+    border-left: 4px solid var(--secondary-neon);
+}
+
+.medicines-section {
+    background: rgba(255, 255, 255, 0.02);
+    padding: 25px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    margin-bottom: 30px;
+    transition: var(--transition);
+}
+
+.history-card:hover .medicines-section {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.medicines-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #fff;
+}
+
+.medicines-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+    padding: 0;
+    list-style: none;
+    margin: 0;
+}
+
+.medicine-item {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 12px 18px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    color: var(--text-main);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: var(--transition);
+}
+
+.medicine-item::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: var(--primary-neon);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--primary-neon);
+}
+
+.medicine-item:hover {
+    transform: translateY(-3px);
+    border-color: rgba(0, 242, 254, 0.3);
+    box-shadow: 0 5px 15px rgba(0, 242, 254, 0.1);
+}
+
+.view-details-btn {
+    padding: 14px 28px;
+    background: transparent;
+    color: var(--text-main);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: 'Outfit', sans-serif;
+}
+
+.view-details-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* --- Edit Modal with Advanced Glassmorphism --- */
+.edit-modal-overlay {
+    background: rgba(3, 7, 18, 0.85);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    animation: fadeInModal 0.4s ease;
+}
+
+@keyframes fadeInModal {
+    from {
+        opacity: 0;
+        backdrop-filter: blur(0);
+    }
+
+    to {
+        opacity: 1;
+        backdrop-filter: blur(25px);
+    }
+}
+
+.edit-modal-content {
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.8));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 32px;
+    padding: 50px;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: scaleInModal 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes scaleInModal {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.edit-modal-content h3 {
+    font-size: 2.6rem;
+    font-weight: 800;
+    margin-top: 0;
+    margin-bottom: 40px;
+    background: var(--gradient-glow);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    letter-spacing: -1px;
+}
+
+.edit-form-group {
+    margin-bottom: 24px;
+}
+
+.edit-form-group label {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+    transition: var(--transition);
+}
+
+.edit-form-group:focus-within label {
+    color: var(--primary-neon);
+}
+
+.edit-form-group input:not([type="checkbox"]):not([type="file"]) {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 16px 20px;
+    color: #fff;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: var(--transition);
+}
+
+.edit-form-group input:not([type="checkbox"]):not([type="file"]):focus {
+    outline: none;
+    border-color: var(--primary-neon);
+    background: rgba(0, 242, 254, 0.03);
+    box-shadow: 0 0 0 4px rgba(0, 242, 254, 0.1), inset 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 16px 20px;
+    border-radius: 16px;
+    margin-top: 15px;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: var(--transition);
+}
+
+.checkbox-group:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.checkbox-group input[type="checkbox"] {
+    accent-color: var(--primary-neon);
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.checkbox-group label {
+    margin-bottom: 0;
+    cursor: pointer;
+    font-size: 1.05rem;
+    color: var(--text-main);
+}
+
+.edit-form-group input[type="file"] {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.edit-form-group input[type="file"]:hover {
+    border-color: var(--primary-neon);
+    background: rgba(0, 242, 254, 0.02);
+}
+
+.edit-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 45px;
+    gap: 20px;
+}
+
+.cancel-btn,
+.save-btn {
+    padding: 15px 35px;
+    border-radius: 16px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.cancel-btn {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text-main);
+}
+
+.cancel-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px);
+}
+
+.save-btn {
+    background: var(--gradient-glow);
+    border: none;
+    color: #fff;
+    box-shadow: 0 10px 20px rgba(0, 242, 254, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.save-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transform: skewX(-20deg);
+    transition: 0.5s;
+}
+
+.save-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(0, 242, 254, 0.5);
+}
+
+.save-btn:hover::before {
+    left: 150%;
+}
+
+@media (max-width: 768px) {
+    .profile-page-container {
+        padding: 0 20px;
+        margin-top: 80px;
+    }
+
+    .history-card {
+        padding: 25px;
+    }
+
+    .doctor-name {
+        font-size: 1.5rem;
+    }
+
+    .history-title {
+        font-size: 2.2rem;
+    }
+
+    .edit-modal-content {
+        padding: 35px 25px;
+    }
+
+    .edit-modal-actions {
+        flex-direction: column-reverse;
+    }
+
+    .cancel-btn,
+    .save-btn {
+        width: 100%;
+    }
+}

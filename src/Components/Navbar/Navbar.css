@@ -1,0 +1,285 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --nav-bg: rgba(15, 23, 42, 0.85);
+    --nav-border: rgba(255, 255, 255, 0.08);
+    --brand-gradient: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+    --text-primary: #ffffff;
+    --text-secondary: #94a3b8;
+    --hover-bg: rgba(255, 255, 255, 0.06);
+    --btn-gradient: linear-gradient(45deg, #ff6b6b, #ff8e53);
+    --btn-shadow: 0 8px 20px rgba(255, 107, 107, 0.35);
+    --nav-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+    --glass-blur: blur(16px);
+    --transition-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--nav-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    padding: 16px 8%;
+    font-family: 'Outfit', sans-serif;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: var(--nav-shadow);
+    border-bottom: 1px solid var(--nav-border);
+    transition: var(--transition-smooth);
+}
+
+/* --- Brand Signature --- */
+.navbar-brand {
+    font-size: 2.2rem;
+    font-weight: 700;
+    background: var(--brand-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-decoration: none;
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    cursor: pointer;
+}
+
+.navbar-brand::after {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: #00f2fe;
+    border-radius: 50%;
+    margin-top: 14px;
+    box-shadow: 0 0 10px #00f2fe, 0 0 20px #00f2fe;
+    animation: glowPulse 2s infinite alternate;
+}
+
+@keyframes glowPulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+        box-shadow: 0 0 10px #00f2fe;
+    }
+
+    100% {
+        transform: scale(1.4);
+        opacity: 1;
+        box-shadow: 0 0 15px #00f2fe, 0 0 25px #00f2fe;
+    }
+}
+
+/* --- Links Container --- */
+.navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.links-list {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 12px;
+}
+
+.links-list li a {
+    text-decoration: none;
+    color:#00f2fe;
+    font-weight: 500;
+    font-size: 1.05rem;
+    padding: 10px 18px;
+    border-radius: 12px;
+    transition: var(--transition-smooth);
+    position: relative;
+    letter-spacing: 0.3px;
+    text-transform: capitalize;
+}
+
+.links-list li a:hover {
+    color: var(--text-primary);
+    background: var(--hover-bg);
+    transform: translateY(-2px);
+}
+
+.links-list li a::before {
+    content: '';
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    width: 0;
+    height: 3px;
+    background: var(--brand-gradient);
+    transition: var(--transition-smooth);
+    transform: translateX(-50%);
+    border-radius: 4px;
+    opacity: 0;
+}
+
+.links-list li a:hover::before {
+    width: 50%;
+    opacity: 1;
+    bottom: -4px;
+}
+
+/* --- Outstanding Logout Button --- */
+.Logout-button {
+    background: var(--btn-gradient);
+    color: #fff;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    box-shadow: var(--btn-shadow);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    letter-spacing: 0.5px;
+}
+
+.Logout-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, #ff8e53, #ff6b6b);
+    z-index: -1;
+    transition: opacity 0.4s ease;
+    opacity: 0;
+    border-radius: 30px;
+}
+
+.Logout-button:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 12px 25px rgba(255, 107, 107, 0.45);
+}
+
+.Logout-button:hover::before {
+    opacity: 1;
+}
+
+.Logout-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+}
+
+/* --- Mobile Menu Toggle --- */
+.menu-toggle {
+    display: none;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 12px;
+    transition: var(--transition-smooth);
+    z-index: 1001;
+}
+
+.menu-toggle:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.bar {
+    display: block;
+    width: 22px;
+    height: 2px;
+    margin: 5px auto;
+    background: var(--text-primary);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 2px;
+}
+
+.menu-toggle.open .bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.menu-toggle.open .bar:nth-child(2) {
+    opacity: 0;
+    transform: translateX(-15px);
+}
+
+.menu-toggle.open .bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+/* --- Responsive Masterpiece --- */
+@media (max-width: 860px) {
+    .navbar {
+        padding: 16px 5%;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .navbar-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 100%;
+        max-width: 320px;
+        height: 100vh;
+        background: rgba(15, 23, 42, 0.98);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: right 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        border-left: 1px solid var(--nav-border);
+        box-shadow: -15px 0 40px rgba(0, 0, 0, 0.6);
+        gap: 30px;
+    }
+
+    .navbar-links.open {
+        right: 0;
+    }
+
+    .links-list {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        width: 100%;
+    }
+
+    .links-list li {
+        width: 100%;
+        text-align: center;
+    }
+
+    .links-list li a {
+        font-size: 1.3rem;
+        padding: 15px 20px;
+        display: block;
+        color: var(--text-primary);
+        border-radius: 0;
+    }
+
+    .links-list li a::before {
+        display: none;
+    }
+
+    .links-list li a:hover {
+        background: linear-gradient(90deg, transparent, rgba(0, 242, 254, 0.1), transparent);
+        color: #00f2fe;
+        transform: none;
+    }
+
+    .Logout-button {
+        width: 80%;
+        padding: 15px;
+        font-size: 1.1rem;
+        margin-top: 15px;
+    }
+}

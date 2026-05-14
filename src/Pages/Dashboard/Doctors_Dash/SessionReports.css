@@ -1,0 +1,453 @@
+/* --- Modern Healthcare UI CSS: Session Reports --- */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+.session-reports-container {
+  padding: 40px;
+  background: #0f172a;
+  min-height: 100vh;
+  font-family: 'Outfit', sans-serif;
+  color: #f8fafc;
+  margin-left: 280px;
+  /* Offset for sidebar */
+}
+
+.header-section {
+  margin-bottom: 40px;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin: 0;
+  background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.header-icon {
+  color: #00f2fe;
+  width: 32px;
+  height: 32px;
+}
+
+.header-subtitle {
+  color: #94a3b8;
+  font-size: 1.1rem;
+  margin-top: 10px;
+}
+
+.patients-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 30px;
+}
+
+.patient-card {
+  background: rgba(30, 41, 59, 0.6);
+  backdrop-filter: blur(12px);
+  border-radius: 24px;
+  padding: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.patient-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 242, 254, 0.15);
+  border-color: rgba(0, 242, 254, 0.3);
+}
+
+.card-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+
+.patient-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.image-container {
+  position: relative;
+}
+
+.patient-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.online-indicator {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 14px;
+  height: 14px;
+  background: #4ade80;
+  border-radius: 50%;
+  border: 2px solid #1e293b;
+}
+
+.patient-details h3 {
+  margin: 0 0 5px;
+  font-size: 1.2rem;
+  color: #f8fafc;
+}
+
+.patient-detail-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #94a3b8;
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+}
+
+.detail-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.last-visit-section {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.last-visit-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #cbd5e1;
+  font-size: 0.95rem;
+}
+
+.last-visit-icon {
+  width: 18px;
+  height: 18px;
+  color: #4facfe;
+}
+
+.card-actions {
+  display: flex;
+  gap: 15px;
+}
+
+.card-actions button {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 12px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-history {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #f8fafc;
+}
+
+.btn-history:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.btn-report {
+  background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+  border: none;
+  color: white;
+  box-shadow: 0 5px 15px rgba(0, 242, 254, 0.2);
+}
+
+.btn-report:hover {
+  box-shadow: 0 8px 20px rgba(0, 242, 254, 0.4);
+  transform: translateY(-2px);
+}
+
+.btn-icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* Modals */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-container {
+  background: #1e293b;
+  width: 90%;
+  max-width: 600px;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.modal-header-content {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.modal-patient-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.modal-title {
+  margin: 0 0 5px;
+  font-size: 1.4rem;
+  color: #f8fafc;
+}
+
+.modal-subtitle {
+  margin: 0;
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+.modal-close-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  color: #cbd5e1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.modal-close-btn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+}
+
+.modal-body {
+  padding: 25px;
+  overflow-y: auto;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.history-record {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  border-radius: 16px;
+  border-left: 4px solid #00f2fe;
+}
+
+.record-date {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #94a3b8;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+.record-date-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.record-diagnosis {
+  font-size: 1.2rem;
+  color: #f8fafc;
+  margin: 0 0 15px;
+}
+
+.medications-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #cbd5e1;
+  margin-bottom: 10px;
+}
+
+.medications-icon {
+  width: 16px;
+  height: 16px;
+  color: #4facfe;
+}
+
+.medications-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.medication-tag {
+  background: rgba(0, 242, 254, 0.1);
+  color: #00f2fe;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+}
+
+.record-notes {
+  color: #94a3b8;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.notes-label {
+  color: #cbd5e1;
+  font-weight: 500;
+}
+
+/* Form Styles */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 8px;
+  color: #cbd5e1;
+  font-weight: 500;
+}
+
+.form-input,
+.form-textarea,
+.medication-input {
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.2);
+  color: white;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1rem;
+  box-sizing: border-box;
+  transition: all 0.3s;
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.medication-input:focus {
+  outline: none;
+  border-color: #00f2fe;
+  box-shadow: 0 0 0 3px rgba(0, 242, 254, 0.2);
+}
+
+.medication-input-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.remove-medication-btn {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #f87171;
+  border-radius: 12px;
+  padding: 0 15px;
+  cursor: pointer;
+}
+
+.add-medication-btn {
+  background: transparent;
+  color: #00f2fe;
+  border: 1px dashed rgba(0, 242, 254, 0.5);
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: 'Outfit', sans-serif;
+  transition: all 0.3s;
+}
+
+.add-medication-btn:hover {
+  background: rgba(0, 242, 254, 0.1);
+}
+
+.modal-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.modal-actions button {
+  flex: 1;
+  padding: 15px;
+  border-radius: 12px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s;
+}
+
+.btn-save {
+  background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+  color: white;
+  border: none;
+  box-shadow: 0 5px 15px rgba(0, 242, 254, 0.2);
+}
+
+.btn-save:hover {
+  box-shadow: 0 8px 25px rgba(0, 242, 254, 0.4);
+  transform: translateY(-2px);
+}
+
+.btn-cancel {
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-cancel:hover {
+  background: rgba(255, 255, 255, 0.05);
+}

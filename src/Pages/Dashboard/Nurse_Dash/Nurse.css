@@ -1,0 +1,509 @@
+/* =========================================
+   Modern Healthcare UI CSS: Nurse Profile & Dashboard
+   ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    --primary-navy: #0f172a;
+    --primary-blue: #00f2fe;
+    --accent-blue: #4facfe;
+    --accent-green: #4ade80;
+    --accent-red: #f87171;
+    --warning-orange: #f59e0b;
+    --bg-body: #0f172a;
+    --bg-white: rgba(30, 41, 59, 0.6);
+    --text-dark: #f8fafc;
+    --text-muted: #94a3b8;
+    --border-light: rgba(255, 255, 255, 0.05);
+    --shadow-card: 0 10px 25px rgba(0, 0, 0, 0.2);
+    --shadow-hover: 0 15px 35px rgba(0, 242, 254, 0.15);
+    --shadow-sidebar: 4px 0 20px rgba(0, 0, 0, 0.3);
+    --transition-speed: 0.4s;
+    --border-radius: 12px;
+    --border-radius-lg: 24px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-body);
+    color: var(--text-dark);
+    font-family: 'Outfit', sans-serif;
+}
+
+/* =========================================
+   2. Sidebar Styling - Modern Dark
+   ========================================= */
+.Nursesidebar {
+    height: 100vh;
+    width: 280px;
+    background: #0f172a;
+    border-right: 1px solid var(--border-light);
+    color: var(--text-dark);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-sidebar);
+    z-index: 1000;
+    transition: all var(--transition-speed) ease;
+    font-family: 'Outfit', sans-serif;
+}
+
+/* Sidebar Header */
+.sidebar-header {
+    padding: 30px 25px;
+    border-bottom: 1px solid var(--border-light);
+    margin-bottom: 20px;
+}
+
+.sidebar-header h2 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--accent-blue) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0;
+}
+
+.sidebar-header h2::before {
+    content: "🏥";
+    font-size: 2rem;
+    -webkit-text-fill-color: initial;
+}
+
+.Nursesidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    flex-grow: 1;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    margin: 5px 15px;
+    padding: 15px 20px;
+    width: calc(100% - 30px);
+    text-decoration: none;
+    color: #cbd5e1;
+    font-size: 1.05rem;
+    font-weight: 500;
+    transition: all var(--transition-speed) cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    border-radius: 12px;
+    border: none;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+}
+
+.menu-item:hover,
+.menu-item.active {
+    background-color: rgba(255, 255, 255, 0.03);
+    color: var(--text-dark);
+    transform: translateX(5px);
+}
+
+.menu-item.active {
+    background: linear-gradient(90deg, rgba(0, 242, 254, 0.1) 0%, transparent 100%);
+    border-left: 4px solid var(--primary-blue);
+    color: var(--primary-blue);
+    border-radius: 0 12px 12px 0;
+}
+
+.menu-icon {
+    margin-right: 15px;
+    font-size: 1.2rem;
+}
+
+/* Sidebar Footer */
+.sidebar-footer {
+    padding: 20px 25px;
+    border-top: 1px solid var(--border-light);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* =========================================
+   3. Main Content Layout
+   ========================================= */
+.nursedash-content {
+    margin-left: 280px;
+    padding: 40px;
+    background-color: var(--bg-body);
+    min-height: 100vh;
+    font-family: 'Outfit', sans-serif;
+    transition: margin-left var(--transition-speed) ease;
+}
+
+/* =========================================
+   4. Header Panel (Enhanced Profile)
+   ========================================= */
+.nurse-header-panel {
+    background: var(--bg-white);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 40px;
+    margin-bottom: 40px;
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--border-light);
+    transition: all var(--transition-speed) cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.nurse-header-panel:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+    border-color: rgba(0, 242, 254, 0.2);
+}
+
+/* Top Row with Name and Button */
+.header-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 2;
+}
+
+.nurse-header-panel h1 {
+    color: var(--text-dark);
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 800;
+}
+
+.highlight {
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--accent-blue) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Edit Button Styling */
+.edit-btn {
+    padding: 14px 35px;
+    background: linear-gradient(135deg, var(--primary-blue), var(--accent-blue));
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 700;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.1rem;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 5px 15px rgba(0, 242, 254, 0.2);
+}
+
+.edit-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 242, 254, 0.4);
+}
+
+.edit-btn.save-mode {
+    background: linear-gradient(135deg, #4ade80, #34d399);
+    box-shadow: 0 5px 15px rgba(74, 222, 128, 0.3);
+}
+
+.edit-btn.save-mode:hover {
+    box-shadow: 0 10px 25px rgba(74, 222, 128, 0.4);
+}
+
+/* =========================================
+   5. Profile Info Section
+   ========================================= */
+.nurse-info-card {
+    display: flex;
+    gap: 60px;
+    align-items: flex-start;
+    position: relative;
+    z-index: 2;
+}
+
+/* Photo Container */
+.nurse-photo-container {
+    flex-shrink: 0;
+    position: relative;
+    border-radius: 50%;
+    padding: 4px;
+    background: linear-gradient(135deg, var(--primary-blue), var(--accent-blue));
+    box-shadow: 0 10px 25px rgba(0, 242, 254, 0.3);
+    transition: all 0.4s ease;
+}
+
+.nurse-photo-container:hover {
+    transform: scale(1.05);
+}
+
+.nurse-photo {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--primary-navy);
+}
+
+.photo-overlay {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: calc(100% - 8px);
+    height: calc(100% - 8px);
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity var(--transition-speed) ease;
+    cursor: pointer;
+}
+
+.nurse-photo-container:hover .photo-overlay {
+    opacity: 1;
+}
+
+/* Details Grid */
+.nurse-details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+    width: 100%;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 16px;
+    border: 1px solid var(--border-light);
+    transition: all 0.3s ease;
+}
+
+.detail-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(0, 242, 254, 0.2);
+}
+
+.detail-item strong {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.detail-item span {
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: 1.2rem;
+}
+
+.detail-item input,
+.detail-item select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    background-color: rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.detail-item input:focus,
+.detail-item select:focus {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(0, 242, 254, 0.2);
+    outline: none;
+}
+
+/* =========================================
+   8. Responsive Design
+   ========================================= */
+@media (max-width: 992px) {
+    .Nursesidebar {
+        width: 80px;
+        overflow: hidden;
+    }
+
+    .Nursesidebar:hover {
+        width: 280px;
+    }
+
+    .sidebar-header h2 span,
+    .menu-item span {
+        opacity: 0;
+    }
+
+    .Nursesidebar:hover .sidebar-header h2 span,
+    .Nursesidebar:hover .menu-item span {
+        opacity: 1;
+        transition: 0.3s;
+    }
+
+    .nursedash-content {
+        margin-left: 80px;
+    }
+
+    .nurse-info-card {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nurse-details-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .header-top-row {
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+        text-align: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .nursedash-content {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    .Nursesidebar {
+        transform: translateX(-100%);
+    }
+
+    .nurse-header-panel {
+        padding: 30px 20px;
+    }
+}
+
+/* =========================================
+   10. Scrollbar Styling
+   ========================================= */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--primary-navy);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 242, 254, 0.5);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-blue);
+}
+
+/* =========================================
+   11. Assigned Work Panel
+   ========================================= */
+.assigned-work-panel {
+    margin-top: 30px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: var(--border-radius-lg);
+    border: 1px solid var(--border-light);
+}
+
+.card-header-row {
+    margin-bottom: 25px;
+}
+
+.card-header-row h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+    margin-bottom: 5px;
+}
+
+.card-header-row .subtitle {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.assigned-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.assignment-item {
+    background: rgba(30, 41, 59, 0.8);
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid var(--border-light);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.assignment-item:hover {
+    transform: translateY(-3px);
+    border-color: rgba(0, 242, 254, 0.3);
+    box-shadow: var(--shadow-hover);
+}
+
+.assignment-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.room-badge {
+    padding: 6px 14px;
+    background: rgba(0, 242, 254, 0.1);
+    color: var(--primary-blue);
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.shift-time {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.assignment-footer {
+    display: flex;
+    justify-content: flex-start;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.date-label {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.empty-assignments {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.01);
+    border-radius: var(--border-radius);
+    color: var(--text-muted);
+}

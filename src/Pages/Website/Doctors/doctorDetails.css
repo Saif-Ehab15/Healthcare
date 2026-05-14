@@ -1,0 +1,269 @@
+/* --- Modern Healthcare UI CSS: Doctor Details --- */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+.doctor-details-page {
+  background-color: var(--bg-main, #0f172a);
+  min-height: 100vh;
+  padding: 60px 5%;
+  font-family: 'Outfit', sans-serif;
+  color: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.doctor-details-status {
+  font-size: 1.5rem;
+  color: #cbd5e1;
+  text-align: center;
+  margin-top: 50px;
+}
+
+.doctor-details-card {
+  background: rgba(30, 41, 59, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 24px;
+  padding: 40px;
+  max-width: 1000px;
+  width: 100%;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+  transition: all 0.4s ease;
+  margin-top: 20px;
+}
+
+.doctor-details-card:hover {
+  box-shadow: 0 20px 50px rgba(0, 242, 254, 0.15);
+  border-color: rgba(0, 242, 254, 0.2);
+}
+
+.doctor-details-image-wrap {
+  flex: 1;
+  min-width: 250px;
+  max-width: 350px;
+}
+
+.doctor-details-image {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: 20px;
+  border: 4px solid transparent;
+  background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+  padding: 4px;
+  box-shadow: 0 10px 30px rgba(0, 242, 254, 0.2);
+  transition: transform 0.4s ease;
+}
+
+.doctor-details-image:hover {
+  transform: scale(1.02);
+}
+
+.doctor-details-image-placeholder {
+  width: 100%;
+  aspect-ratio: 1/1;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: #cbd5e1;
+  border: 2px dashed rgba(255, 255, 255, 0.1);
+}
+
+.doctor-details-content {
+  flex: 2;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.doctor-details-content h2 {
+  font-size: 2.5rem;
+  background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+}
+
+.doctor-details-specialization {
+  font-size: 1.2rem;
+  color: #94a3b8;
+  margin: 0 0 10px 0;
+}
+
+.doctor-details-content p {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #cbd5e1;
+  line-height: 1.6;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 12px 18px;
+  border-radius: 12px;
+  border-left: 3px solid #00f2fe;
+}
+
+.doctor-details-actions {
+  margin-top: 25px;
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.register-now-btn,
+.chat-now-btn {
+  padding: 15px 35px;
+  border: none;
+  border-radius: 30px;
+  color: #fff;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s transform, 0.3s box-shadow;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.register-now-btn {
+  background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+  box-shadow: 0 8px 25px rgba(0, 242, 254, 0.3);
+}
+
+.register-now-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(0, 242, 254, 0.45);
+}
+
+.chat-now-btn {
+  background: linear-gradient(135deg, #f53844 0%, #42378f 100%);
+  box-shadow: 0 8px 25px rgba(245, 56, 68, 0.3);
+}
+
+.chat-now-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(245, 56, 68, 0.45);
+}
+
+.register-now-btn:active,
+.chat-now-btn:active {
+  transform: translateY(1px);
+}
+
+.chat-btn-icon {
+  font-size: 1.2rem;
+}
+
+.doctor-chat-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1200;
+  padding: 20px;
+  animation: fadeIn 0.3s ease;
+}
+
+.doctor-chat-modal {
+  width: 100%;
+  max-width: 1100px;
+  height: 85vh;
+  background: rgba(30, 41, 59, 0.9);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.4s ease;
+}
+
+.doctor-chat-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 20px 30px;
+  background: rgba(15, 23, 42, 0.5);
+}
+
+.doctor-chat-modal-header h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #f8fafc;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.doctor-chat-close-btn {
+  border: none;
+  background: rgba(255, 255, 255, 0.05);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #cbd5e1;
+  transition: all 0.3s ease;
+}
+
+.doctor-chat-close-btn:hover {
+  background: rgba(245, 56, 68, 0.8);
+  color: #fff;
+  transform: rotate(90deg);
+}
+
+.doctor-chat-modal-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 900px) {
+  .doctor-details-card {
+    flex-direction: column;
+    padding: 25px;
+  }
+
+  .doctor-details-image-wrap {
+    max-width: 100%;
+  }
+}
