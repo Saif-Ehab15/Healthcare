@@ -102,7 +102,8 @@ export default function Nursedash() {
                 if (!user?.id) return;
 
                 const res = await axiosInstance.get(`/api/AssignWorks/doctor/${user.id}`);
-                setAssignedWorks(Array.isArray(res.data) ? res.data : []);
+                const data = res.data?.$values || (Array.isArray(res.data) ? res.data : []);
+                setAssignedWorks(data);
             } catch (error) {
                 console.error("Error fetching assigned works:", error);
             }

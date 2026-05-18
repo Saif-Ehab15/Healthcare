@@ -173,7 +173,8 @@ const DoctorProfile = () => {
     if (!doctorId) return;
     try {
       const res = await axiosInstance.get(`/api/AssignWorks/doctor/${doctorId}`);
-      setAssignedWorks(Array.isArray(res.data) ? res.data : []);
+      const data = res.data?.$values || (Array.isArray(res.data) ? res.data : []);
+      setAssignedWorks(data);
     } catch (err) {
       console.error("Error fetching assigned works:", err);
     }

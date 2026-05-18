@@ -5,6 +5,15 @@ import ChatbotWidget from "../Chatbot/Chatbot";
 import axiosInstance from "../../../Config/axios";
 import { ToastContainer, toast } from "react-toastify";
 
+const getImageUrl = (imagePath) => {
+  if (!imagePath) return "https://via.placeholder.com/150";
+  if (imagePath.startsWith("http")) return imagePath;
+  const cleanPath = imagePath.startsWith("/") ? imagePath : `/${imagePath}`;
+  if (cleanPath.startsWith("/images/")) {
+    return `https://localhost:7250${cleanPath}`;
+  }
+  return `https://localhost:7250/images${cleanPath}`;
+};
 
 export default function Profile() {
   const [patient, setPatient] = useState(null);
@@ -25,93 +34,57 @@ export default function Profile() {
   });
 
   useEffect(() => {
-    const controller = new AbortController();
-
-    async function fetchPatient() {
+    const fetchPatient = async () => {
       try {
         const storedUser = localStorage.getItem("user");
-        const token = localStorage.getItem("token");
-
-        if (!storedUser) {
-          console.error("No user found in localStorage");
-          setLoading(false);
-          return;
-        }
+        if (!storedUser) return setLoading(false);
 
         const user = JSON.parse(storedUser);
+        const userId = user.id;
+        // Handle both possible property names from Login.js
+        const userName = user.userName || user.username || user.name || "Unknown";
 
-        if (!user?.id) {
-          console.error("User ID not found");
-          setLoading(false);
-          return;
-        }
+        // Using the new API: /api/Accounts/GetPatients/{id}
+        const res = await axiosInstance.get(`/api/Accounts/GetPatients/${userId}`);
 
-        const res = await axiosInstance.get(
-          `/api/Accounts/GetPatients/${user.id}`,
-          {
-            signal: controller.signal,
-          }
-        );
+        // Handle potential wrapping and normalize data
+        let rawData = res.data;
+        if (rawData?.$values) rawData = rawData.$values;
+        if (Array.isArray(rawData)) rawData = rawData[0];
 
-        setPatient(res.data);
+        const normalized = {
+          ...rawData,
+          name: rawData?.name || rawData?.userName || rawData?.patientName || "No Name",
+          email: rawData?.email || "",
+          phone: rawData?.phone || rawData?.phoneNumber || "",
+          dateOfBirth: rawData?.dateOfBirth || rawData?.DateOfBirth || "",
+          image: rawData?.image || rawData?.imageUrl || null,
+          hasSugar: !!rawData?.hasSugar,
+          hasPressure: !!rawData?.hasPressure,
+          gender: rawData?.gender || "",
+          history: rawData?.history || ""
+        };
+        setPatient(normalized);
 
-        // Fetch reports specifically
-        const reportsRes = await axiosInstance.get(
-          `/api/ReportDoctorToPatient/patient/${user.id}`,
-          {
-            signal: controller.signal,
-          }
-        );
-        setPatientReports(reportsRes.data);
+        // Fetch reports
+        const reportsRes = await axiosInstance.get(`/api/ReportDoctorToPatient/patient/${userId}`);
+        let reportsData = reportsRes.data?.$values || (Array.isArray(reportsRes.data) ? reportsRes.data : []);
+        setPatientReports(reportsData);
 
       } catch (error) {
-        if (error.name === "CanceledError" || error.name === "AbortError") {
-          console.log("Fetch patient profile cancelled");
+        console.error("Error fetching patient:", error);
+        if (error.response?.status === 403) {
+          toast.error("Access Forbidden (403): You don't have permission to view this profile or the name mismatch.");
         } else {
-          console.error("Error fetching patient:", error);
+          toast.error("Failed to load patient details.");
         }
       } finally {
         setLoading(false);
       }
-    }
+    };
 
     fetchPatient();
-
-    return () => {
-      controller.abort();
-    };
   }, []);
-
-  const handleEditClick = () => {
-    setEditForm({
-      id: patient?.id || "",
-      name: patient?.name || "",
-      email: patient?.email || "",
-      phone: patient?.phone || "",
-      dateOfBirth: patient?.dateOfBirth || "",
-      gender: patient?.gender || "",
-      hasSugar: patient?.hasSugar || false,
-      hasPressure: patient?.hasPressure || false,
-      history: patient?.history || "",
-      image: null,
-    });
-    setIsEditing(true);
-  };
-
-  const handleEditChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setEditForm((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    }));
-  };
-
-  const handleFileChange = (e) => {
-    setEditForm((prev) => ({
-      ...prev,
-      image: e.target.files[0],
-    }));
-  };
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
@@ -125,191 +98,168 @@ export default function Profile() {
       formData.append("Gender", editForm.gender);
       formData.append("HasSugar", editForm.hasSugar);
       formData.append("HasPressure", editForm.hasPressure);
-      formData.append("History", editForm.history);
-      if (editForm.image) {
-        formData.append("Image", editForm.image);
-      }
+      if (editForm.image) formData.append("Image", editForm.image);
 
-      const token = localStorage.getItem("token");
-      const res = await axiosInstance.put("/api/Accounts/UpdatePatientProfile", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (res.status === 200) {
-        toast.success("Profile updated successfully!");
-        setIsEditing(false);
-        // Refresh patient data
-        const updatedRes = await axiosInstance.get(`/api/Accounts/GetPatients/${editForm.id}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setPatient(updatedRes.data);
-      }
+      await axiosInstance.put("/api/Accounts/UpdatePatientProfile", formData);
+      toast.success("Profile updated!");
+      window.location.reload();
     } catch (err) {
-      console.error(err);
-      toast.error(err.response?.data?.join ? err.response.data.join(", ") : "Failed to update profile");
+      toast.error("Update failed.");
     }
   };
 
-  if (loading) {
-    return (
-      <>
-        <Navbar />
-        <div className="profile-page-container">
-          <h2>Loading patient data...</h2>
-        </div>
-      </>
-    );
-  }
+  if (loading) return <div className="loading-state">Loading...</div>;
 
   return (
     <>
-      <ToastContainer position="top-center" autoClose={3000} stacked />
+      <ToastContainer />
       <Navbar />
-
       <div className="profile-page-container">
-
-        {/* Sidebar */}
-        <aside className="profile-sidebar">
+        <div className="profile-sidebar">
           <div className="patient-info-card">
-
             <div className="profile-avatar-container">
               <img
-                src={
-                  patient?.image
-                    ? (patient.image.startsWith("/")
-                      ? `https://localhost:7250${patient.image}`
-                      : `https://localhost:7250/images/${patient.image}`)
-                    : "https://via.placeholder.com/150"
-                }
-                alt="Patient Avatar"
+                src={getImageUrl(patient?.image)}
+                alt="Profile"
                 className="profile-avatar"
               />
             </div>
-
-            <h2 className="patient-name">{patient?.name || "No Name"}</h2>
-
-            <p className="patient-detail">{patient?.email || "No Email"}</p>
-
-            <p className="patient-detail">{patient?.phone || "No Phone"}</p>
-
-            <p className="patient-detail">{patient?.dateOfBirth || "No Date Of Birth"}</p>
-
-            <p className="patient-detail">{patient?.gender || "No Gender"}</p>
-
-            <p className="patient-detail">
-              {patient?.hasSugar ? "Has Diabetes" : "No Diabetes"} |{" "}
-              {patient?.hasPressure ? "Has Pressure" : "No Pressure"}
-            </p>
-
-            <button className="edit-profile-btn" onClick={handleEditClick}><span>Edit Profile</span></button>
-
-            <hr className="sidebar-divider" />
-          </div>
-        </aside>
-
-        {/* Main Content */}
-        <main className="profile-main-content">
-
-          <h1 className="history-title">Patient History</h1>
-
-          <div className="history-list">
-
-            {patientReports.length > 0 ? (
-              patientReports.map((item) => (
-                <div className="history-card" key={item.id}>
-
-                  <div className="history-card-header">
-
-                    <h3 className="doctor-name">{item.doctorName || "Unknown Doctor"}</h3>
-
-                    <span className="appointment-date">{new Date(item.createdAt).toLocaleDateString()}</span>
-
-                  </div>
-
-                  <p className="doctor-specialization">
-                    Medical Professional
-                  </p>
-
-                  <p className="appointment-summary">{item.report}</p>
-
-                  <div className="medicines-section">
-
-                    <h4 className="medicines-title">
-                      💊 Prescribed Medicines:
-                    </h4>
-
-                    <ul className="medicines-list">
-
-                      {item.medicines?.map((med, index) => (
-                        <li key={index} className="medicine-item">
-                          {med}
-                        </li>
-                      ))}
-
-                    </ul>
-
-                  </div>
-
-                  <button className="view-details-btn">
-                    View Full Report
-                  </button>
-
-                </div>
-              ))
-            ) : (
-              <p>No medical history available.</p>
+            <h2 className="patient-name">{patient?.name}</h2>
+            <p className="patient-detail">{patient?.email}</p>
+            <p className="patient-detail">{patient?.phone}</p>
+            {patient?.gender && <p className="patient-detail">{patient.gender}</p>}
+            <p className="patient-detail">{patient?.dateOfBirth?.split("T")[0]}</p>
+            {(patient?.hasSugar || patient?.hasPressure) && (
+              <div className="health-badges">
+                {patient?.hasSugar && <div className="health-badge sugar">Diabetes</div>}
+                {patient?.hasPressure && <div className="health-badge pressure">Hypertension</div>}
+              </div>
             )}
-
+            <button className="edit-profile-btn" onClick={() => {
+              setEditForm({ ...patient, image: null });
+              setIsEditing(true);
+            }}>
+              <span>Edit Profile</span>
+            </button>
           </div>
+        </div>
 
-        </main>
-
+        <div className="profile-main-content">
+          <h1 className="history-title">Medical History</h1>
+          <div className="history-list">
+            {patientReports.map((report, idx) => (
+              <div className="history-card" key={idx}>
+                <div className="history-card-header">
+                  <h3 className="doctor-name">Report</h3>
+                  <span className="appointment-date">{report.createdAt?.split("T")[0]}</span>
+                </div>
+                <p className="appointment-summary">{report.report}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
-
-      <ChatbotWidget />
 
       {isEditing && (
         <div className="edit-modal-overlay">
           <div className="edit-modal-content">
             <h3>Edit Profile</h3>
             <form onSubmit={handleEditSubmit}>
-              <div className="edit-form-group">
-                <label>Name</label>
-                <input type="text" name="name" value={editForm.name} onChange={handleEditChange} required />
-              </div>
-              <div className="edit-form-group">
-                <label>Email</label>
-                <input type="email" name="email" value={editForm.email} onChange={handleEditChange} required />
-              </div>
-              <div className="edit-form-group">
-                <label>Phone</label>
-                <input type="tel" name="phone" value={editForm.phone} onChange={handleEditChange} required />
-              </div>
-              <div className="edit-form-group checkbox-group">
-                <input type="checkbox" name="hasSugar" checked={editForm.hasSugar} onChange={handleEditChange} />
-                <label>Has Diabetes</label>
-              </div>
-              <div className="edit-form-group checkbox-group">
-                <input type="checkbox" name="hasPressure" checked={editForm.hasPressure} onChange={handleEditChange} />
-                <label>Has Blood Pressure</label>
-              </div>
-              <div className="edit-form-group">
-                <label>Profile Image</label>
-                <input type="file" name="image" accept="image/*" onChange={handleFileChange} />
+              <div className="edit-form-grid">
+                <div className="edit-form-group">
+                  <label>Name</label>
+                  <input
+                    type="text"
+                    value={editForm.name || ""}
+                    onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
+                  />
+                </div>
+                <div className="edit-form-group">
+                  <label>Email</label>
+                  <input
+                    type="email"
+                    value={editForm.email || ""}
+                    onChange={(e) => setEditForm({ ...editForm, email: e.target.value })}
+                  />
+                </div>
+                <div className="edit-form-group">
+                  <label>Phone</label>
+                  <input
+                    type="text"
+                    value={editForm.phone || ""}
+                    onChange={(e) => setEditForm({ ...editForm, phone: e.target.value })}
+                  />
+                </div>
+                <div className="edit-form-group">
+                  <label>Date of Birth</label>
+                  <input
+                    type="date"
+                    value={editForm.dateOfBirth ? editForm.dateOfBirth.split("T")[0] : ""}
+                    onChange={(e) => setEditForm({ ...editForm, dateOfBirth: e.target.value })}
+                  />
+                </div>
+                <div className="edit-form-group">
+                  <label>Gender</label>
+                  <select
+                    className="edit-select"
+                    value={editForm.gender || ""}
+                    onChange={(e) => setEditForm({ ...editForm, gender: e.target.value })}
+                  >
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                  </select>
+                </div>
+                <div className="edit-form-group">
+                  <label>Profile Image</label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setEditForm({ ...editForm, image: e.target.files[0] })}
+                  />
+                </div>
               </div>
 
+              <div className="checkbox-row">
+                <div
+                  className="checkbox-group"
+                  onClick={() => setEditForm({ ...editForm, hasSugar: !editForm.hasSugar })}
+                >
+                  <input
+                    type="checkbox"
+                    checked={!!editForm.hasSugar}
+                    onChange={() => {}}
+                  />
+                  <label>Have Diabetes</label>
+                </div>
+                <div
+                  className="checkbox-group"
+                  onClick={() => setEditForm({ ...editForm, hasPressure: !editForm.hasPressure })}
+                >
+                  <input
+                    type="checkbox"
+                    checked={!!editForm.hasPressure}
+                    onChange={() => {}}
+                  />
+                  <label>Have Pressure</label>
+                </div>
+              </div>
+
+
+
               <div className="edit-modal-actions">
-                <button type="button" className="cancel-btn" onClick={() => setIsEditing(false)}>Cancel</button>
-                <button type="submit" className="save-btn">Save Changes</button>
+                <button type="button" className="cancel-btn" onClick={() => setIsEditing(false)}>
+                  Cancel
+                </button>
+                <button type="submit" className="save-btn">
+                  Save Changes
+                </button>
               </div>
             </form>
           </div>
         </div>
       )}
-
+      <ChatbotWidget />
     </>
   );
 }

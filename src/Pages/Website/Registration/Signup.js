@@ -87,12 +87,12 @@ export default function Signup() {
       if (response.status === 200) {
         toast.success("You signed up successfully.", {
           position: "top-center",
-          duration: 2000,
-          style: {
-            backgroundColor: "black",
-            color: "white",
-            width: "fit-content",
-          },
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
         });
 
         setTimeout(() => {

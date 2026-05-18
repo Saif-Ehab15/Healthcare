@@ -27,7 +27,9 @@ export default function NurseReports() {
     setLoading(true);
     try {
       const response = await axiosInstance.get("/api/ReportDoctorToPatient");
-      const sortedReports = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      // Handle wrapped array format ($values)
+      const rawData = response.data?.$values || (Array.isArray(response.data) ? response.data : []);
+      const sortedReports = [...rawData].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
       setReports(sortedReports);
       setFilteredReports(sortedReports);
       setError(null);

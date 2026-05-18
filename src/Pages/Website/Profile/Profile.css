@@ -111,6 +111,30 @@ body::after {
     }
 }
 
+/* --- Loading & Empty States --- */
+.loading-state, .no-history {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 100px;
+    text-align: center;
+    background: var(--bg-card);
+    border-radius: 30px;
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(20px);
+}
+
+.loader {
+    width: 60px;
+    height: 60px;
+    border: 5px solid rgba(0, 242, 254, 0.1);
+    border-top-color: var(--primary-neon);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
 /* --- Sidebar / Patient Info --- */
 .profile-sidebar {
     position: sticky;
@@ -243,6 +267,35 @@ body::after {
     color: var(--primary-neon);
     font-weight: bold;
     text-shadow: 0 0 10px var(--primary-neon);
+}
+
+.health-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.health-badge {
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.health-badge.sugar {
+    background: rgba(255, 107, 107, 0.1);
+    color: #ff6b6b;
+    border: 1px solid rgba(255, 107, 107, 0.3);
+}
+
+.health-badge.pressure {
+    background: rgba(255, 142, 83, 0.1);
+    color: #ff8e53;
+    border: 1px solid rgba(255, 142, 83, 0.3);
 }
 
 .edit-profile-btn {
@@ -574,6 +627,43 @@ body::after {
     -webkit-text-fill-color: transparent;
     text-align: center;
     letter-spacing: -1px;
+}
+
+.edit-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+@media (max-width: 600px) {
+    .edit-form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.checkbox-row {
+    display: flex;
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.edit-select, .edit-textarea {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 16px 20px;
+    color: #fff;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: var(--transition);
+}
+
+.edit-select:focus, .edit-textarea:focus {
+    outline: none;
+    border-color: var(--primary-neon);
+    background: rgba(0, 242, 254, 0.03);
 }
 
 .edit-form-group {
