@@ -5,9 +5,7 @@
   font-family: 'Segoe UI', 'Tajawal', system-ui, sans-serif;
 }
 
-body {
-  background-color: #f0f2f6;
-}
+
 
 .dashboard-container {
   direction: ltr;
@@ -246,9 +244,11 @@ canvas {
   .dashboard-container {
     padding: 16px;
   }
+
   .stats-grid {
     gap: 12px;
   }
+
   .stat-number {
     font-size: 24px;
   }

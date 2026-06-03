@@ -111,7 +111,7 @@ export default function Profile() {
   if (loading) return <div className="loading-state">Loading...</div>;
 
   return (
-    <>
+    <div className="profile-page-wrapper">
       <ToastContainer />
       <Navbar />
       <div className="profile-page-container">
@@ -260,6 +260,6 @@ export default function Profile() {
         </div>
       )}
       <ChatbotWidget />
-    </>
+    </div>
   );
 }

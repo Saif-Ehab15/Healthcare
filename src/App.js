@@ -36,7 +36,8 @@ import ResetPassword from './Pages/Website/Registration/ResetPassword';
 import Staffdash from './Pages/Dashboard/Staff_Dash/StaffDash';
 import Attendance from './Pages/Dashboard/Staff_Dash/Attendance';
 import NurseReports from './Pages/Dashboard/Nurse_Dash/Reports';
-
+import PatientBills from './Pages/Website/Patient_Bills/Patient_Bills';
+import ManageBills from './Pages/Dashboard/Admin_Dash/ManageBills';
 
 
 function App() {
@@ -59,6 +60,7 @@ function App() {
         <Route path='/AllRooms' element={<AllRooms />}></Route>
         <Route path='/ICUpatient' element={<ICUpatient />}></Route>
         <Route path='/RoomsPatient' element={<RoomsPatient />}></Route>
+        <Route path='/patient_bills' element={<PatientBills />}></Route>
 
 
 
@@ -87,6 +89,7 @@ function App() {
           <Route path='sub-admin' element={<SubAdmin />} />
           <Route path='manage-staff' element={<StaffCRUD />} />
           <Route path='admin-all-rooms' element={<AdminAllRooms />} />
+          <Route path='patients_bills' element={<ManageBills />} />
           <Route path='admin-all-rooms/ICUadmin' element={<ICUadmin />} />
           <Route path='admin-all-rooms/RoomsAdmin' element={<RoomsAdmin />} />
           <Route path='admin-all-rooms/EmergencyAdmin' element={<EmergencyAdmin />} />

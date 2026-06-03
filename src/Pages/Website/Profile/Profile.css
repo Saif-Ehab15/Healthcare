@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-    --bg-dark: #030712;
+    --bg-dark: #0f172a;
     --bg-card: rgba(17, 24, 39, 0.4);
     --primary-neon: #00f2fe;
     --secondary-neon: #4facfe;
@@ -37,7 +37,7 @@
     background: rgba(0, 242, 254, 0.6);
 }
 
-body {
+.profile-page-wrapper {
     background-color: var(--bg-dark);
     color: var(--text-main);
     font-family: 'Outfit', sans-serif;
@@ -45,10 +45,11 @@ body {
     line-height: 1.6;
     position: relative;
     overflow-x: hidden;
+    min-height: 100vh;
 }
 
-body::before,
-body::after {
+.profile-page-wrapper::before,
+.profile-page-wrapper::after {
     content: '';
     position: fixed;
     top: 0;
@@ -59,13 +60,13 @@ body::after {
     pointer-events: none;
 }
 
-body::before {
+.profile-page-wrapper::before {
     background: radial-gradient(circle at 15% 50%, rgba(0, 242, 254, 0.08), transparent 40%),
         radial-gradient(circle at 85% 30%, rgba(79, 172, 254, 0.08), transparent 40%);
     animation: drift 15s ease-in-out infinite alternate;
 }
 
-body::after {
+.profile-page-wrapper::after {
     background: radial-gradient(circle at 50% 80%, rgba(0, 242, 254, 0.05), transparent 50%);
     animation: drift 20s ease-in-out infinite alternate-reverse;
 }

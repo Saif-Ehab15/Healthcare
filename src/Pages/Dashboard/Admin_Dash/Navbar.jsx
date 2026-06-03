@@ -21,11 +21,12 @@ function Navbar() {
           <Link to="/dashboard/admin/dashboard" className="nav-link">Dashboard</Link>
           <Link to="/dashboard/admin/manage-doctors" className="nav-link">Manage Doctors</Link>
           <Link to="/dashboard/admin/manage-staff" className="nav-link">Manage Staff</Link>
-          <Link to="/dashboard/admin/manage-departments" className="nav-link">Manage Departments</Link>
-          <Link to="/dashboard/admin/admin-all-rooms" className="nav-link">Manage Rooms</Link>
           {role === "Admin" && (
             <Link to="/dashboard/admin/sub-admin" className="nav-link">Manage SubAdmin</Link>
           )}
+          <Link to="/dashboard/admin/patients_bills" className="nav-link">Manage Bills</Link>
+          <Link to="/dashboard/admin/manage-departments" className="nav-link">Manage Departments</Link>
+          <Link to="/dashboard/admin/admin-all-rooms" className="nav-link">Manage Rooms</Link>
         </div>
 
         <button className="logout-btn" onClick={() => navigate("/")} style={{ background: 'rgba(255,255,255,0.2)', border: '1px solid white' }}>

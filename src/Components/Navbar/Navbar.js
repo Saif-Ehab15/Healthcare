@@ -40,6 +40,7 @@ const Navbar = () => {
         <ul className="links-list">
           <li><Link to="/home">Home</Link></li>
           <li><Link to="/profile">profile</Link></li>
+          <li><Link to="/patient_bills">Bills</Link></li>
           <li><Link to="/AllRooms">Rooms</Link></li>
           <li><Link to="/doctors">doctors</Link></li>
 

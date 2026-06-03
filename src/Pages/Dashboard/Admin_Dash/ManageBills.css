@@ -1,0 +1,439 @@
+/* --- Premium Dashboard Billing Styles --- */
+.manage-bills-container {
+  padding: 30px;
+  animation: dbFadeUp 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@keyframes dbFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.manage-bills-header {
+  margin-bottom: 30px;
+}
+
+.dashboard-title {
+  font-size: 2.2rem !important;
+  font-weight: 800 !important;
+  color: #fff !important;
+  margin: 0 0 5px 0;
+}
+
+.dashboard-subtitle {
+  color: #94a3b8;
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* --- Control Row & Buttons --- */
+.controls-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.bill-search-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(30, 41, 59, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 5px 5px 5px 15px;
+}
+
+.bill-search-input {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 0.95rem;
+  width: 220px;
+  outline: none;
+  font-family: 'Outfit', sans-serif;
+}
+
+.bill-search-input::placeholder {
+  color: #64748b;
+}
+
+/* Base button override resets to conform to admin styles */
+.action-btn {
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  border-radius: 10px !important;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600 !important;
+  border: none;
+}
+
+.search-btn {
+  background: linear-gradient(135deg, #00f2fe, #4facfe) !important;
+  box-shadow: 0 5px 15px rgba(0, 242, 254, 0.2) !important;
+}
+
+.reset-btn {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #cbd5e1 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: none !important;
+}
+
+.reset-btn:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  transform: translateY(-1px) !important;
+}
+
+.refresh-btn {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #fff !important;
+  box-shadow: none !important;
+}
+
+.refresh-btn:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* --- Loader & Empty States --- */
+.dashboard-loading {
+  text-align: center;
+  padding: 80px 0;
+  color: #94a3b8;
+}
+
+.db-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(0, 242, 254, 0.1);
+  border-top-color: #00f2fe;
+  border-radius: 50%;
+  animation: dbSpin 0.9s linear infinite;
+  margin: 0 auto 15px;
+}
+
+@keyframes dbSpin {
+  to { transform: rotate(360deg); }
+}
+
+.empty-bills-card {
+  text-align: center;
+  padding: 60px;
+  background: rgba(30, 41, 59, 0.4);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  color: #94a3b8;
+}
+
+/* --- Table Styles --- */
+.bills-table-wrapper {
+  background: rgba(30, 41, 59, 0.45);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  overflow-x: auto;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+.bills-db-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.bills-db-table th {
+  background: rgba(15, 23, 42, 0.3);
+  padding: 18px 20px;
+  font-size: 0.85rem;
+  color: #94a3b8;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.bills-db-table td {
+  padding: 16px 20px;
+  font-size: 0.95rem;
+  color: #e2e8f0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.bills-db-table tr:last-child td {
+  border-bottom: none;
+}
+
+.bills-db-table tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.bill-id-col {
+  font-weight: 700;
+  color: #00f2fe;
+}
+
+.patient-name-col {
+  font-weight: 600;
+  color: #fff;
+}
+
+.patient-id-col {
+  font-family: monospace;
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.bill-amount-col {
+  font-weight: 700;
+  color: #fff;
+}
+
+.table-details-btn {
+  background: transparent !important;
+  border: 1px solid rgba(0, 242, 254, 0.3) !important;
+  color: #00f2fe !important;
+  padding: 6px 14px !important;
+  font-size: 0.8rem !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.table-details-btn:hover {
+  background: rgba(0, 242, 254, 0.1) !important;
+  border-color: #00f2fe !important;
+  transform: translateY(-1px) !important;
+}
+
+/* --- Status Badges --- */
+.db-status-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+.db-status-badge.open {
+  background: rgba(255, 142, 83, 0.15);
+  color: #ff8e53;
+  border: 1px solid rgba(255, 142, 83, 0.3);
+}
+
+.db-status-badge.closed {
+  background: rgba(0, 176, 155, 0.15);
+  color: #00b09b;
+  border: 1px solid rgba(0, 176, 155, 0.3);
+}
+
+/* --- Modal & Backdrop --- */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal-spinner-box {
+  text-align: center;
+  color: #fff;
+}
+
+.bill-modal-content {
+  background: #1e293b;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  width: 90%;
+  max-width: 600px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  animation: modalSlideIn 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modal-header {
+  background: rgba(15, 23, 42, 0.4);
+  padding: 20px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.modal-header h3 {
+  font-size: 1.25rem !important;
+  margin: 0 !important;
+  color: #fff !important;
+}
+
+.close-modal-btn {
+  background: transparent !important;
+  border: none !important;
+  color: #64748b !important;
+  font-size: 1.8rem !important;
+  cursor: pointer;
+  box-shadow: none !important;
+  padding: 0 !important;
+  line-height: 1;
+}
+
+.close-modal-btn:hover {
+  color: #fff !important;
+  transform: none !important;
+}
+
+.modal-body {
+  padding: 25px;
+}
+
+.modal-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.info-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.info-lbl {
+  font-size: 0.75rem;
+  color: #64748b;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.info-val {
+  font-size: 1rem;
+  color: #f8fafc;
+  margin: 0;
+  font-weight: 550;
+}
+
+.treatment-details-section {
+  margin-bottom: 25px;
+}
+
+.treatment-notes {
+  background: rgba(15, 23, 42, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+  padding: 15px;
+  margin-top: 6px;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.treatment-text {
+  font-size: 0.95rem;
+  color: #cbd5e1;
+  margin: 0;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.treatment-text.empty {
+  color: #64748b;
+  font-style: italic;
+}
+
+.modal-footer-pricing {
+  background: rgba(0, 242, 254, 0.02);
+  border: 1px solid rgba(0, 242, 254, 0.1);
+  border-radius: 14px;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.tax-notice {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin: 2px 0 0 0;
+}
+
+.price-tag {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #00f2fe;
+}
+
+.price-tag .curr {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #4facfe;
+}
+
+.modal-actions-row {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 25px 25px 25px;
+}
+
+.close-btn-bottom {
+  background: rgba(255, 255, 255, 0.06) !important;
+  color: #cbd5e1 !important;
+  box-shadow: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  padding: 10px 24px !important;
+}
+
+.close-btn-bottom:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+  transform: translateY(-2px) !important;
+}
+
+@media (max-width: 768px) {
+  .controls-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .bill-search-form {
+    width: 100%;
+  }
+  .bill-search-input {
+    flex: 1;
+  }
+  .modal-info-grid {
+    grid-template-columns: 1fr;
+  }
+}
