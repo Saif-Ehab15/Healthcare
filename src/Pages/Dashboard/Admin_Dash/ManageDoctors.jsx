@@ -20,6 +20,27 @@ function formatTimeLabel(t) {
   return String(t);
 }
 
+function getDoctorImageSrc(image) {
+  if (!image) return null;
+
+  if (
+    image.startsWith("http://") ||
+    image.startsWith("https://") ||
+    image.startsWith("data:") ||
+    image.startsWith("blob:")
+  ) {
+    return image;
+  }
+
+  const baseURL = axiosInstance.defaults.baseURL || "";
+
+  if (image.startsWith("/")) {
+    return `${baseURL}${image}`;
+  }
+
+  return `${baseURL}/images/${image}`;
+}
+
 export default function ManageDoctors() {
 
   const [doctors, setDoctors] = useState([]);
@@ -813,7 +834,7 @@ export default function ManageDoctors() {
 
                     {doc.image ? (
                       <img
-                        src={doc.image}
+                        src={getDoctorImageSrc(doc.image)}
                         alt="doctor"
                         style={{
                           width: "100%",

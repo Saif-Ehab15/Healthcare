@@ -5,6 +5,13 @@ import ChatbotWidget from "../Chatbot/Chatbot";
 import axiosInstance from "../../../Config/axios";
 import { ToastContainer, toast } from "react-toastify";
 
+const normalizeMedicines = (medicines) => {
+  if (!medicines) return [];
+  if (Array.isArray(medicines)) return medicines;
+  if (medicines?.$values) return medicines.$values;
+  return [];
+};
+
 const getImageUrl = (imagePath) => {
   if (!imagePath) return "https://via.placeholder.com/150";
   if (imagePath.startsWith("http")) return imagePath;
@@ -54,6 +61,7 @@ export default function Profile() {
 
         const normalized = {
           ...rawData,
+          id: rawData?.id || rawData?.Id || userId,
           name: rawData?.name || rawData?.userName || rawData?.patientName || "No Name",
           email: rawData?.email || "",
           phone: rawData?.phone || rawData?.phoneNumber || "",
@@ -69,6 +77,10 @@ export default function Profile() {
         // Fetch reports
         const reportsRes = await axiosInstance.get(`/api/ReportDoctorToPatient/patient/${userId}`);
         let reportsData = reportsRes.data?.$values || (Array.isArray(reportsRes.data) ? reportsRes.data : []);
+        reportsData = reportsData.map((report) => ({
+          ...report,
+          medicines: normalizeMedicines(report.medicines || report.Medicines),
+        }));
         setPatientReports(reportsData);
 
       } catch (error) {
@@ -89,22 +101,31 @@ export default function Profile() {
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
+      const storedUser = localStorage.getItem("user");
+      const patientId = editForm.id || (storedUser ? JSON.parse(storedUser).id : null);
+      if (!patientId) {
+        toast.error("Could not determine patient ID. Please log in again.");
+        return;
+      }
+
       const formData = new FormData();
-      formData.append("Id", editForm.id);
+      formData.append("Id", patientId);
       formData.append("Name", editForm.name);
       formData.append("Email", editForm.email);
       formData.append("Phone", editForm.phone);
       formData.append("DateOfBirth", editForm.dateOfBirth);
-      formData.append("Gender", editForm.gender);
-      formData.append("HasSugar", editForm.hasSugar);
-      formData.append("HasPressure", editForm.hasPressure);
+      formData.append("HasSugar", String(editForm.hasSugar));
+      formData.append("HasPressure", String(editForm.hasPressure));
       if (editForm.image) formData.append("Image", editForm.image);
 
-      await axiosInstance.put("/api/Accounts/UpdatePatientProfile", formData);
+      await axiosInstance.put("/api/Accounts/UpdatePatientProfile", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       toast.success("Profile updated!");
       window.location.reload();
     } catch (err) {
-      toast.error("Update failed.");
+      console.error("Profile update error:", err);
+      toast.error(err.response?.data || "Update failed.");
     }
   };
 
@@ -136,7 +157,13 @@ export default function Profile() {
               </div>
             )}
             <button className="edit-profile-btn" onClick={() => {
-              setEditForm({ ...patient, image: null });
+              const storedUser = localStorage.getItem("user");
+              const userId = storedUser ? JSON.parse(storedUser).id : null;
+              setEditForm({
+                ...patient,
+                id: patient?.id || patient?.Id || userId,
+                image: null,
+              });
               setIsEditing(true);
             }}>
               <span>Edit Profile</span>
@@ -150,10 +177,20 @@ export default function Profile() {
             {patientReports.map((report, idx) => (
               <div className="history-card" key={idx}>
                 <div className="history-card-header">
-                  <h3 className="doctor-name">Report</h3>
+                  <h3 className="doctor-name">Dr. {report.doctorName}</h3>
                   <span className="appointment-date">{report.createdAt?.split("T")[0]}</span>
                 </div>
                 <p className="appointment-summary">{report.report}</p>
+                {report.medicines?.length > 0 && (
+                  <div className="medicines-section">
+                    <h4 className="medicines-title">Prescribed Medicines</h4>
+                    <ul className="medicines-list">
+                      {report.medicines.map((medicine, medIdx) => (
+                        <li key={medIdx} className="medicine-item">{medicine}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -198,18 +235,7 @@ export default function Profile() {
                     onChange={(e) => setEditForm({ ...editForm, dateOfBirth: e.target.value })}
                   />
                 </div>
-                <div className="edit-form-group">
-                  <label>Gender</label>
-                  <select
-                    className="edit-select"
-                    value={editForm.gender || ""}
-                    onChange={(e) => setEditForm({ ...editForm, gender: e.target.value })}
-                  >
-                    <option value="">Select Gender</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                  </select>
-                </div>
+
                 <div className="edit-form-group">
                   <label>Profile Image</label>
                   <input
@@ -228,7 +254,7 @@ export default function Profile() {
                   <input
                     type="checkbox"
                     checked={!!editForm.hasSugar}
-                    onChange={() => {}}
+                    onChange={() => { }}
                   />
                   <label>Have Diabetes</label>
                 </div>
@@ -239,7 +265,7 @@ export default function Profile() {
                   <input
                     type="checkbox"
                     checked={!!editForm.hasPressure}
-                    onChange={() => {}}
+                    onChange={() => { }}
                   />
                   <label>Have Pressure</label>
                 </div>

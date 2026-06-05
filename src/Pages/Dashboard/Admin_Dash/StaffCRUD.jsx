@@ -22,6 +22,27 @@ function workPanelKeyFor(member) {
   return `${member.role}:${member.id}`;
 }
 
+function getDoctorImageSrc(image) {
+  if (!image) return null;
+
+  if (
+    image.startsWith("http://") ||
+    image.startsWith("https://") ||
+    image.startsWith("data:") ||
+    image.startsWith("blob:")
+  ) {
+    return image;
+  }
+
+  const baseURL = axiosInstance.defaults.baseURL || "";
+
+  if (image.startsWith("/")) {
+    return `${baseURL}${image}`;
+  }
+
+  return `${baseURL}/images/${image}`;
+}
+
 const normalizePerson = (s, role, i) => ({
   id: s.id ?? s.userId ?? s.staffId ?? s.nurseId ?? i,
   role,
@@ -489,7 +510,7 @@ export default function StaffCRUD() {
       image: member.image,
       imagePreview:
         member.imagePreview ||
-        (typeof member.image === "string" ? member.image : "") ||
+        getDoctorImageSrc(member.image) ||
         "",
       university: member.university,
       departmentId: member.departmentId
@@ -781,7 +802,8 @@ export default function StaffCRUD() {
 
         {!loading &&
           staff.map((member) => {
-            const avatarSrc = member.imagePreview || member.image || "";
+            const avatarSrc =
+              member.imagePreview || getDoctorImageSrc(member.image) || "";
             return (
           <div key={`${member.role}-${member.id}`} className={styles.staffCard}>
 

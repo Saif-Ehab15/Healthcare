@@ -22,7 +22,6 @@ import Dashboard from './Pages/Dashboard/Admin_Dash/Dashboard';
 import ChatPage from './Pages/Website/Doctors/Patientchat';
 import Doctorchat from './Pages/Dashboard/Doctors_Dash/Doctorchat';
 import DoctorDash from './Pages/Dashboard/Doctors_Dash/DoctorDash';
-import LiverModel from './Pages/Dashboard/Doctors_Dash/LiverModel';
 import AllRooms from './Pages/Website/Rooms/AllRooms';
 import ICUpatient from './Pages/Website/Rooms/ICU_Patient';
 import RoomsPatient from './Pages/Website/Rooms/Rooms_Patient';
@@ -77,7 +76,6 @@ function App() {
           <Route path='reports' element={<SessionReports />} />
           <Route path='appointments' element={<AppointmentPage />} />
           <Route path='chat' element={<Doctorchat />} />
-          <Route path='liver-model' element={<LiverModel />} />
         </Route>
 
         {/* Admin Dashboard with nested Outlet routes */}
