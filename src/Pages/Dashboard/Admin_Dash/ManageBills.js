@@ -138,7 +138,6 @@ export default function ManageBills() {
               <tr>
                 <th>Bill ID</th>
                 <th>Patient Name</th>
-                <th>Patient ID</th>
                 <th>Status</th>
                 <th>Start Date</th>
                 <th>End Date</th>
@@ -151,7 +150,6 @@ export default function ManageBills() {
                 <tr key={bill.id}>
                   <td className="bill-id-col">#{bill.id}</td>
                   <td className="patient-name-col">{bill.patientName || "Unknown"}</td>
-                  <td className="patient-id-col">{bill.PatientId || bill.patientId}</td>
                   <td>
                     <span className={`db-status-badge ${bill.status?.toLowerCase()}`}>
                       {bill.status}
@@ -186,10 +184,6 @@ export default function ManageBills() {
                 <div className="info-block">
                   <span className="info-lbl">Patient Name</span>
                   <p className="info-val">{selectedBill.patientName || "N/A"}</p>
-                </div>
-                <div className="info-block">
-                  <span className="info-lbl">Patient ID</span>
-                  <p className="info-val">{selectedBill.PatientId || selectedBill.patientId}</p>
                 </div>
                 <div className="info-block">
                   <span className="info-lbl">Status</span>

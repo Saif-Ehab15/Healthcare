@@ -31,13 +31,21 @@ function Sidebar() {
     navigate("/Login");
   };
 
+  const openExternalLink = (url) => {
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
+
   const menuItems = [
     { icon: "👨‍⚕️", label: "Profile", path: "/dashboard/doctor/profile" },
     // { icon: "📊", label: "Dashboard", path: "/dashboard/doctor" },
     { icon: "📝", label: "Reports", path: "/dashboard/doctor/reports" },
     { icon: "🏥", label: "Rooms", path: "/dashboard/doctor/appointments" },
     { icon: "🩸", label: "Liver Disease Prediction", path: "/dashboard/doctor/liver-model" },
-    // { icon: "🤖", label: "AI Assistant", path: "/dashboard/doctor/ai" },
+    {
+      icon: "🤖",
+      label: "AI Receipt Analysis",
+      externalUrl: "http://127.0.0.1:5000",
+    },
     { icon: "💬", label: "Chat", path: "/dashboard/doctor/chat" },
   ];
 
@@ -59,8 +67,15 @@ function Sidebar() {
             {menuItems.map((item, index) => (
               <li key={index} className="nav-item">
                 <button
-                  className={`nav-button ${location.pathname === item.path ? "active" : ""}`}
-                  onClick={() => navigate(item.path)}
+                  type="button"
+                  className={`nav-button ${
+                    item.path && location.pathname === item.path ? "active" : ""
+                  }`}
+                  onClick={() =>
+                    item.externalUrl
+                      ? openExternalLink(item.externalUrl)
+                      : navigate(item.path)
+                  }
                 >
                   <span className="nav-icon">{item.icon}</span>
                   <span className="nav-label">{item.label}</span>

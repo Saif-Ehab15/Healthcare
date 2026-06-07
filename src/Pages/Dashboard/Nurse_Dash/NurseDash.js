@@ -153,7 +153,6 @@ export default function Nursedash() {
                 formData.append("Id", user.id);
                 formData.append("Name", nurseInfo.name);
                 formData.append("DateOfBirth", nurseInfo.DateOfBirth);
-                formData.append("gender", nurseInfo.gender);
                 formData.append("University", nurseInfo.university);
                 formData.append("Email", nurseInfo.email);
                 formData.append("Phone", nurseInfo.phone);
