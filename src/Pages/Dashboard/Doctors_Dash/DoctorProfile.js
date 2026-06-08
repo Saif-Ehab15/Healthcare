@@ -205,7 +205,6 @@ const DoctorProfile = () => {
       formData.append('phone', editedDoctor.phone);
       formData.append('university', editedDoctor.university);
       formData.append('degree', editedDoctor.degree);
-      formData.append('rank', editedDoctor.rank);
       formData.append('departmentName', editedDoctor.departmentName);
 
       if (imageFile) {
@@ -392,22 +391,29 @@ const DoctorProfile = () => {
               </div>
 
               <div className="info-item">
+                <span className="info-label">🎓 University</span>
+                {isEditing ? (
+                  <input type="text" name="university" value={editedDoctor.university} onChange={handleInputChange} className="edit-input" />
+                ) : (
+                  <span className="info-value">{doctor.university}</span>
+                )}
+              </div>
+
+              <div className="info-item">
+                <span className="info-label"> Degree</span>
+                {isEditing ? (
+                  <input type="text" name="degree" value={editedDoctor.degree} onChange={handleInputChange} className="edit-input" />
+                ) : (
+                  <span className="info-value">{doctor.degree}</span>
+                )}
+              </div>
+
+              <div className="info-item">
                 <span className="info-label">🏥 Department</span>
                 {isEditing ? (
                   <input type="text" name="departmentName" value={editedDoctor.departmentName} onChange={handleInputChange} className="edit-input" />
                 ) : (
                   <span className="info-value">{doctor.departmentName}</span>
-                )}
-              </div>
-
-              <div className="info-item">
-                <span className="info-label">⭐ Rank</span>
-                {isEditing ? (
-                  <input type="number" name="rank" min="1" max="5" value={editedDoctor.rank} onChange={handleInputChange} className="edit-input" />
-                ) : (
-                  <div className="rank-stars">
-                    {'★'.repeat(doctor.rank)}{'☆'.repeat(5 - doctor.rank)}
-                  </div>
                 )}
               </div>
             </div>

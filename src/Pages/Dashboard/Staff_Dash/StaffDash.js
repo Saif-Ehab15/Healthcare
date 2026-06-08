@@ -133,7 +133,6 @@ export default function Staffdash() {
                 formData.append("Id", user.id);
                 formData.append("Name", staffInfo.name);
                 formData.append("DateOfBirth", staffInfo.DateOfBirth);
-                formData.append("gender", staffInfo.gender);
                 formData.append("University", staffInfo.university);
                 formData.append("Email", staffInfo.email);
                 formData.append("Phone", staffInfo.phone);
@@ -260,8 +259,8 @@ export default function Staffdash() {
                                             <strong>Gender:</strong>
                                             {isEditing ? (
                                                 <select name="gender" value={staffInfo.gender} onChange={handleInputChange}>
-                                                    <option value="Female">Female</option>
                                                     <option value="Male">Male</option>
+                                                    <option value="Female">Female</option>
                                                 </select>
                                             ) : (
                                                 <span>{staffInfo.gender}</span>

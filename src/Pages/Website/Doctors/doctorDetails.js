@@ -52,7 +52,6 @@ export default function DoctorDetails() {
           image: apiDoctor.image ?? apiDoctor.imageUrl ?? null,
           email: apiDoctor.email ?? "",
           phone: apiDoctor.phone ?? "",
-          address: apiDoctor.address ?? "",
           description: apiDoctor.description ?? apiDoctor.bio ?? "",
           university:
             apiDoctor.university ??
@@ -125,10 +124,7 @@ export default function DoctorDetails() {
               {doctor.university && <p><strong>University:</strong> {doctor.university}</p>}
               {doctor.degree && <p><strong>Degree:</strong> {doctor.degree}</p>}
               {doctor.rank && <p><strong>Rank:</strong> {doctor.rank}</p>}
-              {doctor.address && <p><strong>Address:</strong> {doctor.address}</p>}
-              {doctor.description && (
-                <p><strong>About:</strong> {doctor.description}</p>
-              )}
+             
 
               <div className="doctor-details-actions">
                 <button

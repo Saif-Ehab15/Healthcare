@@ -334,6 +334,8 @@ body {
     border-color: var(--primary-blue);
     box-shadow: 0 0 0 3px rgba(0, 242, 254, 0.2);
     outline: none;
+    background-color: #0f172a;
+    color: #00f2fe;
 }
 
 /* =========================================

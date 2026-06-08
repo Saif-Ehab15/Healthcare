@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import * as signalR from "@microsoft/signalr";
 import { useParams } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../../../Components/Navbar/Navbar";
 import axiosInstance from "../../../Config/axios";
 import "./doctorReservation.css";
@@ -55,18 +57,25 @@ const DoctorReservation = () => {
     });
 
     connection.on("ReservationResult", (result) => {
-      if (result?.success) {
+      const success = result?.success ?? result?.Success;
+      const reservationId = result?.reservationId ?? result?.ReservationId;
+      const message = result?.message ?? result?.Message;
+
+      if (success) {
         setSlots((prev) =>
           prev.map((slot) =>
-            String(slot.id) === String(result.reservationId)
+            String(slot.id) === String(reservationId)
               ? { ...slot, status: "Reserved", patientId: patientIdRef.current }
               : slot
           )
         );
-      } else if (result?.message) {
-        setError(result.message);
+        toast.success(message || "Appointment registered successfully!");
+      } else if (message) {
+        setError(message);
+        toast.error(message);
       } else {
         setError("Reservation failed.");
+        toast.error("Reservation failed.");
       }
       setLoading(false);
     });
@@ -113,11 +122,13 @@ const DoctorReservation = () => {
   const reserveSlot = async (slotId) => {
     if (!patientIdRef.current) {
       setError("User not found. Please login again.");
+      toast.error("User not found. Please login again.");
       return;
     }
     const ok = await connect();
     if (!ok || !connectionRef.current) {
       setError("Realtime connection not ready.");
+      toast.error("Realtime connection not ready.");
       return;
     }
 
@@ -128,7 +139,44 @@ const DoctorReservation = () => {
     } catch {
       setLoading(false);
       setError("Failed to reserve this slot.");
+      toast.error("Failed to reserve this slot.");
     }
+  };
+
+  const confirmReserveSlot = (slot) => {
+    if (!patientIdRef.current) {
+      toast.error("User not found. Please login again.");
+      return;
+    }
+
+    const confirmToast = toast(
+      <div>
+        <p>
+          Are you sure you want to select{" "}
+          <strong>{formatTime(slot.time)}</strong>?
+        </p>
+        <div className="reservation-toast-actions">
+          <button
+            type="button"
+            className="reservation-toast-btn reservation-toast-btn--yes"
+            onClick={async () => {
+              toast.dismiss(confirmToast);
+              await reserveSlot(slot.id);
+            }}
+          >
+            Yes
+          </button>
+          <button
+            type="button"
+            className="reservation-toast-btn reservation-toast-btn--no"
+            onClick={() => toast.dismiss(confirmToast)}
+          >
+            No
+          </button>
+        </div>
+      </div>,
+      { autoClose: false, closeOnClick: false, closeButton: false }
+    );
   };
 
   useEffect(() => {
@@ -158,6 +206,7 @@ const DoctorReservation = () => {
 
   return (
     <>
+      <ToastContainer position="top-center" autoClose={3000} stacked />
       <Navbar />
       <div className="reservation-page">
         <div className="reservation-container">
@@ -188,7 +237,7 @@ const DoctorReservation = () => {
                   <div
                     key={slot.id}
                     className="slot"
-                    onClick={() => reserveSlot(slot.id)}
+                    onClick={() => confirmReserveSlot(slot)}
                   >
                     <div className="slot-time">{formatTime(slot.time)}</div>
                     <div className="slot-status">Available</div>

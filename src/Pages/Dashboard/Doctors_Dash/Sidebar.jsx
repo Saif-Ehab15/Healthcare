@@ -40,11 +40,20 @@ function Sidebar() {
     // { icon: "📊", label: "Dashboard", path: "/dashboard/doctor" },
     { icon: "📝", label: "Reports", path: "/dashboard/doctor/reports" },
     { icon: "🏥", label: "Rooms", path: "/dashboard/doctor/appointments" },
-    { icon: "🩸", label: "Liver Disease Prediction", path: "/dashboard/doctor/liver-model" },
     {
-      icon: "🤖",
+      icon: "📄",
       label: "AI Receipt Analysis",
       externalUrl: "http://127.0.0.1:5000",
+    },
+    {
+      icon: "🔬",
+      label: "AI Liver Disease Analysis",
+      externalUrl: "http://127.0.0.1:8000",
+    },
+    {
+      icon: "🔬",
+      label: "Liver Histopathology AI diagnose",
+      externalUrl: "http://127.0.0.1:8001",
     },
     { icon: "💬", label: "Chat", path: "/dashboard/doctor/chat" },
   ];

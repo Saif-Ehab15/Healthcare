@@ -144,3 +144,27 @@
   text-transform: uppercase;
   letter-spacing: 1px;
 }
+
+.reservation-toast-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.reservation-toast-btn {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.reservation-toast-btn--yes {
+  background: #4facfe;
+  color: #fff;
+}
+
+.reservation-toast-btn--no {
+  background: #e2e8f0;
+  color: #0f172a;
+}
