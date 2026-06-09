@@ -31,6 +31,20 @@ const getCryptoKey = async () => {
   return cryptoKeyPromise;
 };
 
+const normalizeChatPatient = (patient) => ({
+  id: patient.id ?? patient.Id,
+  name: patient.name ?? patient.Name ?? 'Unknown Patient',
+});
+
+const mergeUniquePatients = (patients) => [
+  ...new Map(
+    patients
+      .map(normalizeChatPatient)
+      .filter((patient) => patient.id)
+      .map((patient) => [String(patient.id), patient])
+  ).values(),
+].sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
+
 const tryDecryptMessageContent = async (content) => {
   if (!content || typeof content !== 'string') return content || '';
   try {
@@ -62,21 +76,37 @@ const Doctorchat = () => {
   const [isHubConnected, setIsHubConnected] = useState(false);
   const hasStartedConnectionRef = useRef(false);
   const lastFetchedPatientRef = useRef(null);
+  const sheltersRef = useRef([]);
+  const fetchChatPatientsRef = useRef(null);
 
   useEffect(() => {
-    const fetchShelters = async () => {
+    sheltersRef.current = shelters;
+  }, [shelters]);
+
+  useEffect(() => {
+    const fetchChatPatients = async () => {
       if (!DOCTOR_ID) return;
       try {
-        const response = await axiosInstance.get('/api/Messages/Patients', {
-          params: { id: DOCTOR_ID }
-        });
-        setShelters(Array.isArray(response.data) ? response.data : []);
+        const [reportRes, messageRes] = await Promise.all([
+          axiosInstance
+            .get(`/api/ReportDoctorToPatient/doctor/${DOCTOR_ID}/patients`)
+            .catch(() => ({ data: [] })),
+          axiosInstance
+            .get('/api/Messages/Patients', { params: { id: DOCTOR_ID } })
+            .catch(() => ({ data: [] })),
+        ]);
+
+        const reportPatients = Array.isArray(reportRes.data) ? reportRes.data : [];
+        const messagePatients = Array.isArray(messageRes.data) ? messageRes.data : [];
+        setShelters(mergeUniquePatients([...reportPatients, ...messagePatients]));
       } catch (error) {
-        console.error('Error fetching shelters:', error);
+        console.error('Error fetching chat patients:', error);
+        setShelters([]);
       }
     };
 
-    fetchShelters();
+    fetchChatPatientsRef.current = fetchChatPatients;
+    fetchChatPatients();
   }, [DOCTOR_ID]);
 
   useEffect(() => {
@@ -167,6 +197,13 @@ const Doctorchat = () => {
     };
 
     const receiveHandler = async (messageId, senderId, messageContent) => {
+      if (
+        senderId !== DOCTOR_ID &&
+        !sheltersRef.current.some((patient) => String(patient.id) === String(senderId))
+      ) {
+        fetchChatPatientsRef.current?.();
+      }
+
       const incomingMessage = {
         id: messageId,
         senderId,

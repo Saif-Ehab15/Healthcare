@@ -281,6 +281,34 @@
   border-left: 4px solid #00f2fe;
 }
 
+.history-record-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.btn-edit-report {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid rgba(0, 242, 254, 0.35);
+  border-radius: 10px;
+  background: rgba(0, 242, 254, 0.1);
+  color: #00f2fe;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-edit-report:hover {
+  background: rgba(0, 242, 254, 0.2);
+  transform: translateY(-1px);
+}
+
 .record-date {
   display: flex;
   align-items: center;

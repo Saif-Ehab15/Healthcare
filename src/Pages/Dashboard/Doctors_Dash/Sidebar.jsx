@@ -1,7 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import {
+  User,
+  ClipboardList,
+  Building2,
+  ScanLine,
+  Activity,
+  Microscope,
+  MessageCircle,
+  LogOut,
+  Hospital,
+} from "lucide-react";
 import axiosInstance from "../../../Config/axios";
 import "./Sidebar.css";
+
+const SIDEBAR_ICON_SIZE = 20;
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -36,26 +49,25 @@ function Sidebar() {
   };
 
   const menuItems = [
-    { icon: "👨‍⚕️", label: "Profile", path: "/dashboard/doctor/profile" },
-    // { icon: "📊", label: "Dashboard", path: "/dashboard/doctor" },
-    { icon: "📝", label: "Reports", path: "/dashboard/doctor/reports" },
-    { icon: "🏥", label: "Rooms", path: "/dashboard/doctor/appointments" },
+    { Icon: User, label: "Profile", path: "/dashboard/doctor/profile" },
+    { Icon: ClipboardList, label: "Reports", path: "/dashboard/doctor/reports" },
+    { Icon: Building2, label: "Rooms", path: "/dashboard/doctor/appointments" },
     {
-      icon: "📄",
+      Icon: ScanLine,
       label: "AI Receipt Analysis",
       externalUrl: "http://127.0.0.1:5000",
     },
     {
-      icon: "🔬",
+      Icon: Activity,
       label: "AI Liver Disease Analysis",
       externalUrl: "http://127.0.0.1:8000",
     },
     {
-      icon: "🔬",
+      Icon: Microscope,
       label: "Liver Histopathology AI diagnose",
       externalUrl: "http://127.0.0.1:8001",
     },
-    { icon: "💬", label: "Chat", path: "/dashboard/doctor/chat" },
+    { Icon: MessageCircle, label: "Chat", path: "/dashboard/doctor/chat" },
   ];
 
   return (
@@ -63,7 +75,9 @@ function Sidebar() {
       <div className="sidebar-content">
         <div className="sidebar-header">
           <div className="clinic-brand">
-            <div className="clinic-icon">🏥</div>
+            <div className="clinic-icon">
+              <Hospital size={24} aria-hidden="true" />
+            </div>
             <div className="clinic-text">
               <h3>SAFI</h3>
               <span>Healthcare System</span>
@@ -73,30 +87,37 @@ function Sidebar() {
 
         <nav className="sidebar-nav">
           <ul className="nav-menu">
-            {menuItems.map((item, index) => (
-              <li key={index} className="nav-item">
-                <button
-                  type="button"
-                  className={`nav-button ${
-                    item.path && location.pathname === item.path ? "active" : ""
-                  }`}
-                  onClick={() =>
-                    item.externalUrl
-                      ? openExternalLink(item.externalUrl)
-                      : navigate(item.path)
-                  }
-                >
-                  <span className="nav-icon">{item.icon}</span>
-                  <span className="nav-label">{item.label}</span>
-                </button>
-              </li>
-            ))}
+            {menuItems.map((item, index) => {
+              const ItemIcon = item.Icon;
+              return (
+                <li key={index} className="nav-item">
+                  <button
+                    type="button"
+                    className={`nav-button ${
+                      item.path && location.pathname === item.path ? "active" : ""
+                    }`}
+                    onClick={() =>
+                      item.externalUrl
+                        ? openExternalLink(item.externalUrl)
+                        : navigate(item.path)
+                    }
+                  >
+                    <span className="nav-icon">
+                      <ItemIcon size={SIDEBAR_ICON_SIZE} aria-hidden="true" />
+                    </span>
+                    <span className="nav-label">{item.label}</span>
+                  </button>
+                </li>
+              );
+            })}
           </ul>
         </nav>
 
         <div className="sidebar-footer">
           <button className="nav-button logout-button" onClick={handleLogout}>
-            <span className="nav-icon">🚪</span>
+            <span className="nav-icon">
+              <LogOut size={SIDEBAR_ICON_SIZE} aria-hidden="true" />
+            </span>
             <span className="nav-label">Logout</span>
           </button>
         </div>

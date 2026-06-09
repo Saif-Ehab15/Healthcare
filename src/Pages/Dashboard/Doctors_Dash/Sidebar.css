@@ -42,6 +42,12 @@
   align-items: center;
   justify-content: center;
   border-radius: 12px;
+  color: #00f2fe;
+}
+
+.clinic-icon svg {
+  color: #00f2fe;
+  stroke: currentColor;
 }
 
 .clinic-text h3 {
@@ -87,7 +93,7 @@
   background: transparent;
   border: 1px solid transparent;
   border-radius: 12px;
-  color: #cbd5e1;
+  color: #00f2fe;
   font-family: 'Outfit', sans-serif;
   font-size: 1.05rem;
   font-weight: 500;
@@ -98,7 +104,7 @@
 .nav-button:hover {
   background: rgba(255, 255, 255, 0.03);
   transform: translateX(5px);
-  color: #f8fafc;
+  color: #ffffff;
 }
 
 .nav-button.active {
@@ -108,7 +114,25 @@
 }
 
 .nav-icon {
-  font-size: 1.2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  flex-shrink: 0;
+}
+
+.nav-icon svg {
+  color: #00f2fe;
+  stroke: currentColor;
+  transition: color 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.nav-button:hover .nav-icon svg {
+  color: #ffffff;
+}
+
+.nav-button.active .nav-icon svg {
+  color: #00f2fe;
 }
 
 .sidebar-footer {
@@ -120,7 +144,15 @@
   color: #f87171;
 }
 
+.logout-button .nav-icon svg {
+  color: #f87171;
+}
+
 .logout-button:hover {
   background: rgba(239, 68, 68, 0.1);
-  color: #f87171;
+  color: #ffffff;
+}
+
+.logout-button:hover .nav-icon svg {
+  color: #ffffff;
 }

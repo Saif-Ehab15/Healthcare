@@ -5,7 +5,6 @@ import Homepage from './Pages/Website/Homepage/Home';
 import Profile from './Pages/Website/Profile/Profile';
 import Nursedash from './Pages/Dashboard/Nurse_Dash/NurseDash';
 import ChatbotWidget from './Pages/Website/Chatbot/Chatbot';
-import VideoConference from './Pages/Website/Videoconference/Video';
 import ICU from './Pages/Dashboard/Nurse_Dash/ICU';
 import AllDoctors from './Pages/Website/Doctors/doctors';
 import DoctorDetails from './Pages/Website/Doctors/doctorDetails';
@@ -51,7 +50,6 @@ function App() {
         <Route path='/Home' element={<Homepage />}></Route>
         <Route path='/Profile' element={<Profile />}></Route>
         <Route path='/chatbot' element={<ChatbotWidget />}></Route>
-        <Route path='/Videoconference' element={<VideoConference />}></Route>
         <Route path='/doctors' element={<AllDoctors />}></Route>
         <Route path='/doctor-details/:id' element={<DoctorDetails />}></Route>
         <Route path='/doctors/:id/reservation' element={<DoctorReservation />}></Route>

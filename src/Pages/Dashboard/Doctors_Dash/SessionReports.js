@@ -8,7 +8,8 @@ import {
   Pill,
   Save,
   X,
-  History
+  History,
+  Pencil
 } from 'lucide-react';
 import axiosInstance from '../../../Config/axios';
 import { toast, ToastContainer } from 'react-toastify';
@@ -38,6 +39,7 @@ function SessionReports() {
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [showHistory, setShowHistory] = useState(false);
   const [showReport, setShowReport] = useState(false);
+  const [editingReportId, setEditingReportId] = useState(null);
 
   const [reportData, setReportData] = useState({
     diagnosis: '',
@@ -80,9 +82,16 @@ function SessionReports() {
     }
   };
 
+  const closeReportModal = () => {
+    setShowReport(false);
+    setEditingReportId(null);
+    setReportData({ diagnosis: '', medications: [''], notes: '' });
+  };
+
   // ===== Open report modal =====
   const openReport = (patient) => {
     setSelectedPatient(patient);
+    setEditingReportId(null);
     setShowReport(true);
     setReportData({
       diagnosis: '',
@@ -91,26 +100,78 @@ function SessionReports() {
     });
   };
 
+  const openEditReport = (patient, record) => {
+    const reportId = record.id ?? record.Id;
+    const medicines = record.medicines ?? record.Medicines ?? [];
+
+    setSelectedPatient(patient);
+    setEditingReportId(reportId);
+    setShowReport(true);
+    setReportData({
+      diagnosis: '',
+      medications: medicines.length > 0 ? medicines : [''],
+      notes: record.report ?? record.Report ?? ''
+    });
+  };
+
+  const refreshPatientHistory = async (patient) => {
+    try {
+      const response = await axiosInstance.get(
+        `/api/ReportDoctorToPatient/patient/${patient.patientId}`
+      );
+      setSelectedPatient({ ...patient, history: response.data });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   // ===== Save report =====
   const saveReport = async () => {
     if (!selectedPatient) return;
-    const payload = {
-      patientId: selectedPatient.patientId,
-      doctorId: doctorId,
-      report: reportData.notes,
-      medicines: reportData.medications.filter(m => m.trim() !== '')
-    };
+
+    const medicines = reportData.medications.filter((m) => m.trim() !== '');
+    const reportText = reportData.notes.trim();
+
+    if (!reportText) {
+      toast.error('Please write the report before saving.');
+      return;
+    }
 
     try {
-      await axiosInstance.post('/api/ReportDoctorToPatient', payload);
-      setShowReport(false);
-      setSelectedPatient(null);
-      setReportData({ diagnosis: '', medications: [''], notes: '' });
-      toast.success('Report saved successfully!');
+      if (editingReportId) {
+        await axiosInstance.put(`/api/ReportDoctorToPatient/${editingReportId}`, {
+          report: reportText,
+          medicines
+        });
+        toast.success('Report updated successfully!');
+      } else {
+        await axiosInstance.post('/api/ReportDoctorToPatient', {
+          patientId: selectedPatient.patientId,
+          doctorId,
+          report: reportText,
+          medicines
+        });
+        toast.success('Report saved successfully!');
+      }
+
+      if (showHistory) {
+        await refreshPatientHistory(selectedPatient);
+      } else {
+        setSelectedPatient(null);
+      }
+
+      closeReportModal();
     } catch (err) {
       console.error(err);
-      toast.error('Failed to save report.');
+      toast.error(
+        editingReportId ? 'Failed to update report.' : 'Failed to save report.'
+      );
     }
+  };
+
+  const isOwnReport = (record) => {
+    const recordDoctorId = record.doctorId ?? record.DoctorId;
+    return String(recordDoctorId) === String(doctorId);
   };
 
   const handleMedicationChange = (index, value) => {
@@ -212,19 +273,35 @@ function SessionReports() {
               {selectedPatient.history && selectedPatient.history.length > 0 ? (
                 <div className="history-list">
                   {selectedPatient.history.map((record, idx) => (
-                    <div key={idx} className="history-record">
-                      <div className="record-date">
-                        <Calendar className="record-date-icon" />
-                        <span>{new Date(record.createdAt).toLocaleDateString()}</span>
+                    <div key={record.id ?? record.Id ?? idx} className="history-record">
+                      <div className="history-record-header">
+                        <div className="record-date">
+                          <Calendar className="record-date-icon" />
+                          <span>
+                            {new Date(record.createdAt ?? record.CreatedAt).toLocaleDateString()}
+                          </span>
+                        </div>
+                        {isOwnReport(record) && (
+                          <button
+                            type="button"
+                            className="btn-edit-report"
+                            onClick={() => openEditReport(selectedPatient, record)}
+                          >
+                            <Pencil className="btn-icon" />
+                            Edit
+                          </button>
+                        )}
                       </div>
-                      <h3 className="record-diagnosis">Report: {record.report}</h3>
+                      <h3 className="record-diagnosis">
+                        Report: {record.report ?? record.Report}
+                      </h3>
                       <div className="medications-section">
                         <div className="medications-label">
                           <Pill className="medications-icon" />
                           <span>Medications:</span>
                         </div>
                         <div className="medications-list">
-                          {record.medicines?.map((med, i) => (
+                          {(record.medicines ?? record.Medicines ?? []).map((med, i) => (
                             <span key={i} className="medication-tag">{med}</span>
                           ))}
                         </div>
@@ -248,11 +325,15 @@ function SessionReports() {
               <div className="modal-header-content">
                 <img src={getImageUrl(selectedPatient.patientImage || selectedPatient.image, selectedPatient.patientName || selectedPatient.name)} alt={selectedPatient.name} className="modal-patient-image" />
                 <div>
-                  <h2 className="modal-title">Write Medical Report</h2>
-                  <p className="modal-subtitle">{selectedPatient.name}</p>
+                  <h2 className="modal-title">
+                    {editingReportId ? 'Edit Medical Report' : 'Write Medical Report'}
+                  </h2>
+                  <p className="modal-subtitle">
+                    {selectedPatient.patientName ?? selectedPatient.name}
+                  </p>
                 </div>
               </div>
-              <button onClick={() => setShowReport(false)} className="modal-close-btn">
+              <button onClick={closeReportModal} className="modal-close-btn">
                 <X className="close-icon" />
               </button>
             </div>
@@ -296,9 +377,9 @@ function SessionReports() {
               <div className="modal-actions">
                 <button onClick={saveReport} className="btn-save">
                   <Save className="save-icon" />
-                  Save Report
+                  {editingReportId ? 'Update Report' : 'Save Report'}
                 </button>
-                <button onClick={() => setShowReport(false)} className="btn-cancel">Cancel</button>
+                <button onClick={closeReportModal} className="btn-cancel">Cancel</button>
               </div>
             </div>
           </div>

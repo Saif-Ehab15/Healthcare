@@ -95,7 +95,7 @@ body {
     padding: 15px 20px;
     width: calc(100% - 30px);
     text-decoration: none;
-    color: #cbd5e1;
+    color: #00f2fe;
     font-size: 1.05rem;
     font-weight: 500;
     transition: all var(--transition-speed) cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -107,23 +107,57 @@ body {
     cursor: pointer;
 }
 
-.menu-item:hover,
-.menu-item.active {
+.menu-item:hover {
     background-color: rgba(255, 255, 255, 0.03);
-    color: var(--text-dark);
+    color: #ffffff;
     transform: translateX(5px);
 }
 
 .menu-item.active {
     background: linear-gradient(90deg, rgba(0, 242, 254, 0.1) 0%, transparent 100%);
     border-left: 4px solid var(--primary-blue);
-    color: var(--primary-blue);
+    color: #00f2fe;
     border-radius: 0 12px 12px 0;
+    transform: translateX(5px);
 }
 
 .menu-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
     margin-right: 15px;
-    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.menu-icon svg {
+    color: #00f2fe;
+    stroke: currentColor;
+    transition: color var(--transition-speed) cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.menu-item:hover .menu-icon svg {
+    color: #ffffff;
+}
+
+.menu-item.active .menu-icon svg {
+    color: #00f2fe;
+}
+
+.Nursesidebar-menu li:last-child .menu-item {
+    color: #f87171;
+}
+
+.Nursesidebar-menu li:last-child .menu-icon svg {
+    color: #f87171;
+}
+
+.Nursesidebar-menu li:last-child .menu-item:hover {
+    color: #ffffff;
+}
+
+.Nursesidebar-menu li:last-child .menu-item:hover .menu-icon svg {
+    color: #ffffff;
 }
 
 /* Sidebar Footer */

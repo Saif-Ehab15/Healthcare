@@ -2,6 +2,18 @@ import React, { useState } from 'react';
 import '../Navbar/Navbar.css';
 import axiosInstance from '../../Config/axios';
 import { Link, useNavigate } from 'react-router-dom';
+import {
+  Home,
+  User,
+  Stethoscope,
+  Building2,
+  Receipt,
+  Brain,
+  ScanLine,
+  LogOut,
+} from 'lucide-react';
+
+const NAV_ICON_SIZE = 18;
 
 const Navbar = () => {
   // State to manage the visibility of the mobile menu
@@ -38,35 +50,66 @@ const Navbar = () => {
 
       <div className={`navbar-links ${isOpen ? 'open' : ''}`}>
         <ul className="links-list">
-          <li><Link to="/home">Home</Link></li>
-          <li><Link to="/profile">profile</Link></li>
-          <li><Link to="/doctors">doctors</Link></li>
-          <li><Link to="/AllRooms">Rooms</Link></li>
-          <li><Link to="/patient_bills">Bills</Link></li>
+          <li>
+            <Link to="/home" className="nav-link-item" onClick={() => setIsOpen(false)}>
+              <Home size={NAV_ICON_SIZE} aria-hidden="true" />
+              Home
+            </Link>
+          </li>
+          <li>
+            <Link to="/profile" className="nav-link-item" onClick={() => setIsOpen(false)}>
+              <User size={NAV_ICON_SIZE} aria-hidden="true" />
+              Profile
+            </Link>
+          </li>
+          <li>
+            <Link to="/doctors" className="nav-link-item" onClick={() => setIsOpen(false)}>
+              <Stethoscope size={NAV_ICON_SIZE} aria-hidden="true" />
+              Doctors
+            </Link>
+          </li>
+          <li>
+            <Link to="/AllRooms" className="nav-link-item" onClick={() => setIsOpen(false)}>
+              <Building2 size={NAV_ICON_SIZE} aria-hidden="true" />
+              Rooms
+            </Link>
+          </li>
+          <li>
+            <Link to="/patient_bills" className="nav-link-item" onClick={() => setIsOpen(false)}>
+              <Receipt size={NAV_ICON_SIZE} aria-hidden="true" />
+              Bills
+            </Link>
+          </li>
           <li>
             <a
               href="http://127.0.0.1:5000"
+              className="nav-link-item"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setIsOpen(false)}
             >
+              <Brain size={NAV_ICON_SIZE} aria-hidden="true" />
               AI Disease Diagnosis
             </a>
           </li>
           <li>
             <a
               href="http://127.0.0.1:5001"
+              className="nav-link-item"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setIsOpen(false)}
             >
+              <ScanLine size={NAV_ICON_SIZE} aria-hidden="true" />
               AI Receipt Analysis
             </a>
           </li>
-
         </ul>
 
-        <button className="Logout-button" onClick={handleLogout}>Logout</button>
+        <button className="Logout-button" onClick={handleLogout}>
+          <LogOut size={NAV_ICON_SIZE} aria-hidden="true" />
+          Logout
+        </button>
       </div>
     </nav>
   );

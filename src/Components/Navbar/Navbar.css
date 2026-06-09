@@ -88,7 +88,11 @@
     gap: 12px;
 }
 
-.links-list li a {
+.links-list li a,
+.nav-link-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     text-decoration: none;
     color: #00f2fe;
     font-weight: 500;
@@ -101,10 +105,21 @@
     text-transform: capitalize;
 }
 
+.nav-link-item svg {
+    flex-shrink: 0;
+    color: #00f2fe;
+    stroke: currentColor;
+    transition: var(--transition-smooth);
+}
+
 .links-list li a:hover {
-    color: var(--text-primary);
+    color: #ffffff;
     background: var(--hover-bg);
     transform: translateY(-2px);
+}
+
+.links-list li a:hover svg {
+    color: #ffffff;
 }
 
 .links-list li a::before {
@@ -128,7 +143,15 @@
 }
 
 /* --- Outstanding Logout Button --- */
+.Logout-button svg {
+    color: #ffffff;
+    stroke: currentColor;
+}
+
 .Logout-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     background: var(--btn-gradient);
     color: #fff;
     border: none;
@@ -258,10 +281,13 @@
         text-align: center;
     }
 
-    .links-list li a {
+    .links-list li a,
+    .nav-link-item {
         font-size: 1.3rem;
         padding: 15px 20px;
-        display: block;
+        display: inline-flex;
+        justify-content: center;
+        width: 100%;
         color: var(--text-primary);
         border-radius: 0;
     }

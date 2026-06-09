@@ -65,9 +65,10 @@ export default function DoctorDetails() {
             "",
           rank:
             apiDoctor.rank ??
+            apiDoctor.Rank ??
             apiDoctor.doctorRank ??
             apiDoctor.position ??
-            "",
+            null,
         });
       } catch (error) {
         if (error.name === "CanceledError" || error.name === "AbortError") {
@@ -123,8 +124,10 @@ export default function DoctorDetails() {
               {doctor.phone && <p><strong>Phone:</strong> {doctor.phone}</p>}
               {doctor.university && <p><strong>University:</strong> {doctor.university}</p>}
               {doctor.degree && <p><strong>Degree:</strong> {doctor.degree}</p>}
-              {doctor.rank && <p><strong>Rank:</strong> {doctor.rank}</p>}
-             
+              {Number(doctor.rank) > 0 && (
+                <p><strong>Rank:</strong> {Number(doctor.rank)}</p>
+              )}
+
 
               <div className="doctor-details-actions">
                 <button
