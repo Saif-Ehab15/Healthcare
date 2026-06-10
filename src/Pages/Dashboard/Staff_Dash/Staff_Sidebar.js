@@ -3,6 +3,7 @@ import {
   User,
   CalendarCheck,
   LogOut,
+  Receipt,
 } from "lucide-react";
 import "../Nurse_Dash/Nurse.css";
 
@@ -32,14 +33,22 @@ export default function Staffsidebar() {
             <span className="menu-text">Staff profile</span>
           </Link>
         </li>
-        <li>
-          <Link to="/dashboard/staff/attendance" className="menu-item">
-            <span className="menu-icon">
-              <CalendarCheck size={SIDEBAR_ICON_SIZE} aria-hidden="true" />
-            </span>
-            <span className="menu-text">Attendance</span>
-          </Link>
-        </li>
+          <li>
+            <Link to="/dashboard/staff/attendance" className="menu-item">
+              <span className="menu-icon">
+                <CalendarCheck size={SIDEBAR_ICON_SIZE} aria-hidden="true" />
+              </span>
+              <span className="menu-text">Attendance</span>
+            </Link>
+          </li>
+          <li>
+            <Link to="/dashboard/staff/manage_bills" className="menu-item">
+              <span className="menu-icon">
+                 <Receipt size={SIDEBAR_ICON_SIZE} aria-hidden="true" />
+              </span>
+              <span className="menu-text">Manage Bills</span>
+            </Link>
+          </li>
         <li>
           <button type="button" className="menu-item" onClick={handleLogout}>
             <span className="menu-icon">

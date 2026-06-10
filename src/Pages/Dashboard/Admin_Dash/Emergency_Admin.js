@@ -5,6 +5,7 @@ import Navbar from "./Navbar";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { motion, AnimatePresence } from "framer-motion";
+import { calculateRoomStats, isRoomOccupied } from "./adminRoomUtils";
 
 export default function EmergencyAdmin() {
     const [emergencyData, setEmergencyData] = useState({
@@ -22,7 +23,6 @@ export default function EmergencyAdmin() {
         roomNumber: "",
         departmentId: "",
         departmentName: "",
-        isReserved: false
     });
 
     const fetchAllData = async () => {
@@ -72,26 +72,6 @@ export default function EmergencyAdmin() {
         fetchAllData();
     }, []);
 
-    const calculateStats = (data) => {
-        if (data && typeof data === 'object' && ('room' in data || 'Room' in data)) {
-            const total = data.room || data.Room || 0;
-            const reserved = data.reserved || data.Reserved || 0;
-            return {
-                total,
-                reserved,
-                available: Math.max(0, total - reserved)
-            };
-        }
-
-        if (!Array.isArray(data)) return { total: 0, reserved: 0, available: 0 };
-
-        const total = data.length;
-        const reserved = data.filter((item) => item.isReserved || item.reserved).length;
-        const available = total - reserved;
-
-        return { total, reserved, available };
-    };
-
     const handleOpenModal = (entry = null) => {
         if (entry) {
             setIsEditing(true);
@@ -100,7 +80,6 @@ export default function EmergencyAdmin() {
                 roomNumber: entry.number || entry.roomNumber || "",
                 departmentId: entry.departmentId || "",
                 departmentName: entry.departmentName || "",
-                isReserved: entry.isReserved || entry.reserved || false
             });
         } else {
             setIsEditing(false);
@@ -110,7 +89,6 @@ export default function EmergencyAdmin() {
                 roomNumber: "",
                 departmentId: defaultDept.id,
                 departmentName: defaultDept.name,
-                isReserved: false
             });
         }
         setShowModal(true);
@@ -118,7 +96,7 @@ export default function EmergencyAdmin() {
 
     const handleCloseModal = () => {
         setShowModal(false);
-        setCurrentEntry({ id: "", roomNumber: "", departmentId: "", departmentName: "", isReserved: false });
+        setCurrentEntry({ id: "", roomNumber: "", departmentId: "", departmentName: "" });
     };
 
     const handleSaveEntry = async (e) => {
@@ -128,7 +106,6 @@ export default function EmergencyAdmin() {
             const payload = {
                 number: parseInt(currentEntry.roomNumber),
                 departmentId: parseInt(currentEntry.departmentId),
-                isReserved: currentEntry.isReserved
             };
 
             if (isEditing) {
@@ -189,7 +166,7 @@ export default function EmergencyAdmin() {
                 <>
                     <div className="stats-grid">
                         {statsTypes.map((type, idx) => {
-                            const stats = calculateStats(emergencyData[type.key]);
+                            const stats = calculateRoomStats(emergencyData[type.key]);
                             return (
                                 <motion.div
                                     key={type.key}
@@ -205,11 +182,11 @@ export default function EmergencyAdmin() {
                                             <span className="stat-value">{stats.total}</span>
                                         </div>
                                         <div className="stat-row">
-                                            <span className="stat-label">Critical</span>
-                                            <span className="stat-value">{stats.reserved}</span>
+                                            <span className="stat-label">Occupied</span>
+                                            <span className="stat-value">{stats.occupied}</span>
                                         </div>
                                         <div className="stat-row">
-                                            <span className="stat-label">Handled</span>
+                                            <span className="stat-label">Available</span>
                                             <span className="stat-value">{stats.available}</span>
                                         </div>
                                     </div>
@@ -217,7 +194,7 @@ export default function EmergencyAdmin() {
                                         <div
                                             className="progress-bar"
                                             style={{
-                                                width: stats.total > 0 ? `${(stats.reserved / stats.total) * 100}%` : '0%',
+                                                width: stats.total > 0 ? `${(stats.occupied / stats.total) * 100}%` : '0%',
                                                 backgroundColor: `var(--accent-${type.class})`
                                             }}
                                         />
@@ -251,7 +228,9 @@ export default function EmergencyAdmin() {
                                 </thead>
                                 <tbody>
                                     {allEmergencies.length > 0 ? (
-                                        allEmergencies.map((entry, idx) => (
+                                        allEmergencies.map((entry, idx) => {
+                                            const occupied = isRoomOccupied(entry);
+                                            return (
                                             <tr key={entry.id || idx}>
                                                 <td className="room-number-cell">#{entry.number || entry.roomNumber}</td>
                                                 <td>
@@ -261,8 +240,8 @@ export default function EmergencyAdmin() {
                                                 </td>
                                                 <td>
                                                     <div className="status-indicator">
-                                                        <span className={`status-dot ${(entry.isReserved || entry.reserved) ? 'reserved' : 'available'}`}></span>
-                                                        {(entry.isReserved || entry.reserved) ? 'Critical' : 'Stable/Handled'}
+                                                        <span className={`status-dot ${occupied ? 'reserved' : 'available'}`}></span>
+                                                        {occupied ? 'Occupied' : 'Available'}
                                                     </div>
                                                 </td>
                                                 <td className="actions-cell">
@@ -270,7 +249,8 @@ export default function EmergencyAdmin() {
                                                     <button className="action-btn delete" onClick={() => handleDeleteEntry(entry.id)}>🗑</button>
                                                 </td>
                                             </tr>
-                                        ))
+                                        );
+                                        })
                                     ) : (
                                         <tr>
                                             <td colSpan="4" className="empty-state">No emergency entries found.</td>
@@ -326,17 +306,9 @@ export default function EmergencyAdmin() {
                                     </select>
                                 </div>
                                 {isEditing && (
-                                    <div className="form-group">
-                                        <label className="checkbox-group">
-                                            <input
-                                                type="checkbox"
-                                                className="form-checkbox"
-                                                checked={currentEntry.isReserved}
-                                                onChange={(e) => setCurrentEntry({ ...currentEntry, isReserved: e.target.checked })}
-                                            />
-                                            <span>Is Critical?</span>
-                                        </label>
-                                    </div>
+                                    <p className="form-hint">
+                                        Room status is set automatically when patients are assigned or released.
+                                    </p>
                                 )}
                                 <div className="form-actions">
                                     <button type="submit" className="btn btn-primary">Save Changes</button>

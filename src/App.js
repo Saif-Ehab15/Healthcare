@@ -94,6 +94,7 @@ function App() {
         {/* Staff Dashboard with nested Outlet routes */}
         <Route path='/dashboard/staff' element={<Staffdash />}>
           <Route path='attendance' element={<Attendance />} />
+          <Route path='manage_bills' element={<ManageBills />} />
         </Route>
 
       </Routes>

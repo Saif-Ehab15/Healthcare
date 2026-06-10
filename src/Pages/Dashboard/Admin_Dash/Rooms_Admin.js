@@ -5,6 +5,7 @@ import Navbar from "./Navbar";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { motion, AnimatePresence } from "framer-motion";
+import { calculateRoomStats, isRoomOccupied } from "./adminRoomUtils";
 
 export default function RoomsAdmin() {
     const [roomsData, setRoomsData] = useState({
@@ -22,7 +23,6 @@ export default function RoomsAdmin() {
         roomNumber: "",
         departmentId: "",
         departmentName: "",
-        isReserved: false
     });
 
     const fetchAllData = async () => {
@@ -71,26 +71,6 @@ export default function RoomsAdmin() {
         fetchAllData();
     }, []);
 
-    const calculateStats = (data) => {
-        if (data && typeof data === 'object' && ('room' in data || 'Room' in data)) {
-            const total = data.room || data.Room || 0;
-            const reserved = data.reserved || data.Reserved || 0;
-            return {
-                total,
-                reserved,
-                available: Math.max(0, total - reserved)
-            };
-        }
-
-        if (!Array.isArray(data)) return { total: 0, reserved: 0, available: 0 };
-
-        const total = data.length;
-        const reserved = data.filter((room) => room.isReserved || room.reserved).length;
-        const available = total - reserved;
-
-        return { total, reserved, available };
-    };
-
     const handleOpenModal = (room = null) => {
         if (room) {
             setIsEditing(true);
@@ -99,7 +79,6 @@ export default function RoomsAdmin() {
                 roomNumber: room.number || room.roomNumber || "",
                 departmentId: room.departmentId || "",
                 departmentName: room.departmentName || "",
-                isReserved: room.isReserved || room.reserved || false
             });
         } else {
             setIsEditing(false);
@@ -109,7 +88,6 @@ export default function RoomsAdmin() {
                 roomNumber: "",
                 departmentId: defaultDept.id,
                 departmentName: defaultDept.name,
-                isReserved: false
             });
         }
         setShowModal(true);
@@ -117,7 +95,7 @@ export default function RoomsAdmin() {
 
     const handleCloseModal = () => {
         setShowModal(false);
-        setCurrentRoom({ id: "", roomNumber: "", departmentId: "", departmentName: "", isReserved: false });
+        setCurrentRoom({ id: "", roomNumber: "", departmentId: "", departmentName: "" });
     };
 
     const handleSaveRoom = async (e) => {
@@ -127,7 +105,6 @@ export default function RoomsAdmin() {
             const payload = {
                 number: parseInt(currentRoom.roomNumber),
                 departmentId: parseInt(currentRoom.departmentId),
-                isReserved: currentRoom.isReserved
             };
 
             if (isEditing) {
@@ -188,7 +165,7 @@ export default function RoomsAdmin() {
                 <>
                     <div className="stats-grid">
                         {statsTypes.map((type, idx) => {
-                            const stats = calculateStats(roomsData[type.key]);
+                            const stats = calculateRoomStats(roomsData[type.key]);
                             return (
                                 <motion.div
                                     key={type.key}
@@ -204,8 +181,8 @@ export default function RoomsAdmin() {
                                             <span className="stat-value">{stats.total}</span>
                                         </div>
                                         <div className="stat-row">
-                                            <span className="stat-label">Reserved</span>
-                                            <span className="stat-value">{stats.reserved}</span>
+                                            <span className="stat-label">Occupied</span>
+                                            <span className="stat-value">{stats.occupied}</span>
                                         </div>
                                         <div className="stat-row">
                                             <span className="stat-label">Available</span>
@@ -216,7 +193,7 @@ export default function RoomsAdmin() {
                                         <div
                                             className="progress-bar"
                                             style={{
-                                                width: stats.total > 0 ? `${(stats.reserved / stats.total) * 100}%` : '0%',
+                                                width: stats.total > 0 ? `${(stats.occupied / stats.total) * 100}%` : '0%',
                                                 backgroundColor: `var(--accent-${type.class})`
                                             }}
                                         />
@@ -250,7 +227,9 @@ export default function RoomsAdmin() {
                                 </thead>
                                 <tbody>
                                     {allRooms.length > 0 ? (
-                                        allRooms.map((room, idx) => (
+                                        allRooms.map((room, idx) => {
+                                            const occupied = isRoomOccupied(room);
+                                            return (
                                             <tr key={room.id || idx}>
                                                 <td className="room-number-cell">#{room.number || room.roomNumber}</td>
                                                 <td>
@@ -260,8 +239,8 @@ export default function RoomsAdmin() {
                                                 </td>
                                                 <td>
                                                     <div className="status-indicator">
-                                                        <span className={`status-dot ${(room.isReserved || room.reserved) ? 'reserved' : 'available'}`}></span>
-                                                        {(room.isReserved || room.reserved) ? 'Occupied' : 'Available'}
+                                                        <span className={`status-dot ${occupied ? 'reserved' : 'available'}`}></span>
+                                                        {occupied ? 'Occupied' : 'Available'}
                                                     </div>
                                                 </td>
                                                 <td className="actions-cell">
@@ -269,7 +248,8 @@ export default function RoomsAdmin() {
                                                     <button className="action-btn delete" onClick={() => handleDeleteRoom(room.id)}>🗑</button>
                                                 </td>
                                             </tr>
-                                        ))
+                                        );
+                                        })
                                     ) : (
                                         <tr>
                                             <td colSpan="4" className="empty-state">No rooms found in inventory.</td>
@@ -325,17 +305,9 @@ export default function RoomsAdmin() {
                                     </select>
                                 </div>
                                 {isEditing && (
-                                    <div className="form-group">
-                                        <label className="checkbox-group">
-                                            <input
-                                                type="checkbox"
-                                                className="form-checkbox"
-                                                checked={currentRoom.isReserved}
-                                                onChange={(e) => setCurrentRoom({ ...currentRoom, isReserved: e.target.checked })}
-                                            />
-                                            <span>Is Reserved?</span>
-                                        </label>
-                                    </div>
+                                    <p className="form-hint">
+                                        Room status is set automatically when patients are assigned or released.
+                                    </p>
                                 )}
                                 <div className="form-actions">
                                     <button type="submit" className="btn btn-primary">Save Changes</button>
