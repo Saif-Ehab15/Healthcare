@@ -3,10 +3,8 @@ import "../Admin_Dash/ManageBills.css";
 import axiosInstance from "../../../Config/axios";
 import { ToastContainer, toast } from "react-toastify";
 
-// Explicitly import Toastify styles to ensure your custom UI components display correctly
 import "react-toastify/dist/ReactToastify.css";
 
-// Standalone component to handle the clean, custom-styled toast confirmation layout
 const ConfirmToastContent = ({ billId, onConfirm, onCancel }) => {
   return (
     <div style={{ padding: "4px", fontFamily: "sans-serif" }}>
@@ -84,7 +82,6 @@ export default function StaffManageBills() {
     }
   };
 
-  // GET: /api/Bill/GetBillByid/{id}
   const handleSearch = async (e) => {
     e.preventDefault();
     if (!searchId.trim()) {
@@ -113,7 +110,6 @@ export default function StaffManageBills() {
     }
   };
 
-  // GET: /api/Bill/GetBillByid/{id}
   const handleOpenDetails = async (billId) => {
     setModalLoading(true);
     setSelectedBill(null);

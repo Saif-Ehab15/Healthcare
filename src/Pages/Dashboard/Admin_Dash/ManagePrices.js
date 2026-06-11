@@ -110,13 +110,13 @@ export default function ManagePrices() {
   }, [viewMode]);
 
   const serviceOptions = useMemo(() => {
-  const fromPrices = prices.map((p) => getField(p, "serviceName", "ServiceName")).filter(Boolean);
-  const fromDepartments = departments.flatMap((dept) =>
-    ROOM_TYPES.map((type) => buildServiceName(type, dept.name))
-  );
-  const fromAdditional = ADDITIONAL_SERVICES;
-  return [...new Set([...fromPrices, ...fromDepartments, ...fromAdditional])].sort();
-}, [prices, departments]);
+    const fromPrices = prices.map((p) => getField(p, "serviceName", "ServiceName")).filter(Boolean);
+    const fromDepartments = departments.flatMap((dept) =>
+      ROOM_TYPES.map((type) => buildServiceName(type, dept.name))
+    );
+    const fromAdditional = ADDITIONAL_SERVICES;
+    return [...new Set([...fromPrices, ...fromDepartments, ...fromAdditional])].sort();
+  }, [prices, departments]);
 
 
   const filteredPrices = useMemo(() => {
@@ -303,18 +303,6 @@ export default function ManagePrices() {
         </div>
 
         <div className="price-filter-form">
-          <select
-            className="price-filter-select"
-            value={serviceFilter}
-            onChange={(e) => setServiceFilter(e.target.value)}
-          >
-            <option value="">All services</option>
-            {serviceOptions.map((name) => (
-              <option key={name} value={name}>
-                {name}
-              </option>
-            ))}
-          </select>
           <button type="button" className="action-btn refresh-btn" onClick={() => fetchPrices()}>
             Refresh
           </button>
@@ -361,9 +349,8 @@ export default function ManagePrices() {
                     <td>{formatDate(getField(price, "end_Date", "End_Date"))}</td>
                     <td>
                       <span
-                        className={`price-status-badge ${
-                          deleted ? "deleted" : active ? "active" : "scheduled"
-                        }`}
+                        className={`price-status-badge ${deleted ? "deleted" : active ? "active" : "scheduled"
+                          }`}
                       >
                         {deleted ? "Deleted" : active ? "Active" : "Scheduled"}
                       </span>
