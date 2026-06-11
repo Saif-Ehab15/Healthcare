@@ -11,8 +11,10 @@ import {
   Building2,
   Hospital,
   LogOut,
+  Currency,
 } from "lucide-react";
 import "./Navbar.css";
+import { BsCurrencyPound } from "react-icons/bs";
 
 const NAV_ICON_SIZE = 18;
 
@@ -54,10 +56,6 @@ function Navbar() {
               Manage SubAdmin
             </Link>
           )}
-          <Link to="/dashboard/admin/patients_bills" className="nav-link">
-            <Receipt size={NAV_ICON_SIZE} aria-hidden="true" />
-            Manage Bills
-          </Link>
           <Link to="/dashboard/admin/manage-departments" className="nav-link">
             <Layers size={NAV_ICON_SIZE} aria-hidden="true" />
             Manage Departments
@@ -66,6 +64,16 @@ function Navbar() {
             <Building2 size={NAV_ICON_SIZE} aria-hidden="true" />
             Manage Rooms
           </Link>
+          <Link to="/dashboard/admin/manage_prices" className="nav-link">
+            <BsCurrencyPound size={NAV_ICON_SIZE} aria-hidden="true" />
+            Manage Prices
+          </Link>
+          <Link to="/dashboard/admin/patients_bills" className="nav-link">
+            <Receipt size={NAV_ICON_SIZE} aria-hidden="true" />
+            Manage Bills
+          </Link>
+          
+          
         </div>
 
         <button className="logout-btn" onClick={() => navigate("/")}>

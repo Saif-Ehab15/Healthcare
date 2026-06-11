@@ -36,6 +36,8 @@ import Attendance from './Pages/Dashboard/Staff_Dash/Attendance';
 import NurseReports from './Pages/Dashboard/Nurse_Dash/Reports';
 import PatientBills from './Pages/Website/Patient_Bills/Patient_Bills';
 import ManageBills from './Pages/Dashboard/Admin_Dash/ManageBills';
+import ManagePrices from './Pages/Dashboard/Admin_Dash/ManagePrices';
+import StaffManageBills from './Pages/Dashboard/Staff_Dash/StaffManageBills';
 
 
 function App() {
@@ -86,6 +88,7 @@ function App() {
           <Route path='manage-staff' element={<StaffCRUD />} />
           <Route path='admin-all-rooms' element={<AdminAllRooms />} />
           <Route path='patients_bills' element={<ManageBills />} />
+          <Route path='manage_prices' element={<ManagePrices />} />
           <Route path='admin-all-rooms/ICUadmin' element={<ICUadmin />} />
           <Route path='admin-all-rooms/RoomsAdmin' element={<RoomsAdmin />} />
           <Route path='admin-all-rooms/EmergencyAdmin' element={<EmergencyAdmin />} />
@@ -94,7 +97,7 @@ function App() {
         {/* Staff Dashboard with nested Outlet routes */}
         <Route path='/dashboard/staff' element={<Staffdash />}>
           <Route path='attendance' element={<Attendance />} />
-          <Route path='manage_bills' element={<ManageBills />} />
+          <Route path='staff_manage_bills' element={<StaffManageBills />} />
         </Route>
 
       </Routes>

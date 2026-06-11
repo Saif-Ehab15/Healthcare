@@ -401,9 +401,7 @@ export default function ReleaseRoomSection() {
                       <div className="release-info-item">
                         <span className="release-info-label">Patient Name</span>
                         <span className="release-info-val">
-                          {activeAppointmentForSelectedRoom.patientName ??
-                            activeAppointmentForSelectedRoom.PatientName ??
-                            "N/A"}
+                          {activeAppointmentForSelectedRoom.patientName ?? activeAppointmentForSelectedRoom.PatientName ?? activeAppointmentForSelectedRoom.patientId ?? activeAppointmentForSelectedRoom.PatientId ?? "N/A"}
                         </span>
                       </div>
                       <div className="release-info-item">

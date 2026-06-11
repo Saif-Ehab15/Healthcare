@@ -42,15 +42,12 @@ const toTimeHHmm = (value) => {
 
 const apiDayToYmd = (day) => {
   if (day == null || day === '') return '';
-  if (typeof day === 'string') return day.split('T');
+  if (typeof day === 'string') return day.split('T')[0];
   return '';
 };
 
-const combineLocalDateTimeToIso = (dateStr, timeStr) => {
-  const [y, mo, d] = dateStr.split('-').map((x) => parseInt(x, 10));
-  const [h, m] = timeStr.split(':').map((x) => parseInt(x, 10));
-  return new Date(y, mo - 1, d, h, m, 0, 0).toISOString();
-};
+const combineLocalDateTimeToIso = (dateStr, timeStr) => `${dateStr}T${timeStr}:00`;
+
 
 const mapAvailableTimeApiToRow = (item) => {
   const day = item.day ?? item.Day;
@@ -294,16 +291,52 @@ const DoctorProfile = () => {
   };
 
   const handleDeleteAppointment = async (availableTimeId) => {
+    if (!availableTimeId) return;
+
+    const previousAppointments = [...appointments];
+
     try {
-      const res = await axiosInstance.delete('/api/AvailableTimeOfDoctor/DeleteAvailableTime', {
-        params: { id: availableTimeId }
-      });
-      if (res.data === true) {
-        toast.success('Appointment removed.');
-        loadAvailableTimes();
+      // Optimistic UI update
+      setAppointments((prev) =>
+        prev.filter((item) => item.id !== availableTimeId)
+      );
+
+      const response = await axiosInstance.delete(`/api/AvailableTimeOfDoctor/DeleteAvailableTime?id=${availableTimeId}`);
+
+      console.log("Delete response:", response);
+
+      const success =
+        response.status === 200 &&
+        response.data !== false &&
+        response.data !== "false" &&
+        response.data !== 0 &&
+        response.data !== "0" &&
+        response.data !== "Failed";
+
+      if (!success) {
+        setAppointments(previousAppointments);
+
+        toast.error(
+          (response.data && typeof response.data === 'object' && response.data.message) ||
+          "Unable to delete available time."
+        );
+
+        return;
       }
-    } catch (err) {
-      toast.error('Failed to delete appointment.');
+
+      toast.success("Available time deleted successfully.");
+
+      await loadAvailableTimes();
+    } catch (error) {
+      console.error("Delete error:", error);
+
+      setAppointments(previousAppointments);
+
+      toast.error(
+        error.response?.data?.message ||
+        error.response?.data ||
+        "Failed to delete available time."
+      );
     }
   };
 
@@ -445,22 +478,41 @@ const DoctorProfile = () => {
               <h4>📋 Assigned Work</h4>
             </div>
             <div className="appointments-list">
-              {assignedWorks.length > 0 ? (
-                assignedWorks.map((work) => (
-                  <div key={work.id} className="appointment-row">
+              {appointments.length > 0 ? (
+                appointments.map((apt) => (
+                  <div key={apt.id} className="appointment-row">
                     <div className="appointment-details">
-                      <span className="appointment-day" style={{ fontWeight: '600', color: '#00f2fe' }}>
-                        {work.roomNumber ? `Room ${work.roomNumber}` : (work.roomId ? `Room ${work.roomId}` : "Assigned Task")}
+                      <span className="appointment-day">
+                        {formatDisplayDate(apt.date)}
                       </span>
-                      <span className="appointment-time">{formatDisplayDate(work.startDate || work.day)}</span>
+
                       <span className="appointment-time">
-                        {(work.startTime?.slice(0, 5) || "—")} – {(work.endTime?.slice(0, 5) || "—")}
+                        {apt.startTime} – {apt.endTime}
+                      </span>
+
+                      <span className="appointment-time">
+                        Slots: {apt.slots}
                       </span>
                     </div>
+
+                    <button
+                      className="btn-delete"
+                      onClick={() => handleDeleteAppointment(apt.id)}
+                    >
+                      🗑️
+                    </button>
                   </div>
                 ))
               ) : (
-                <p style={{ textAlign: 'center', color: '#94a3b8', padding: '10px' }}>No assigned work found.</p>
+                <p
+                  style={{
+                    textAlign: "center",
+                    color: "#94a3b8",
+                    padding: "10px",
+                  }}
+                >
+                  No available times found.
+                </p>
               )}
             </div>
           </div>

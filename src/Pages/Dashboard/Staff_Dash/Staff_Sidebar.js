@@ -42,7 +42,7 @@ export default function Staffsidebar() {
             </Link>
           </li>
           <li>
-            <Link to="/dashboard/staff/manage_bills" className="menu-item">
+            <Link to="/dashboard/staff/staff_manage_bills" className="menu-item">
               <span className="menu-icon">
                  <Receipt size={SIDEBAR_ICON_SIZE} aria-hidden="true" />
               </span>

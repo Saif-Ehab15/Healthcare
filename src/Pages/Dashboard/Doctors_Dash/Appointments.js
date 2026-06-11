@@ -130,6 +130,14 @@ const AppointmentPage = () => {
     setSelectedDoctor(null);
   };
 
+  const loadActiveAppointments = async () => {
+    try {
+      await axiosInstance.get("/api/AppointmentToRoom");
+    } catch (err) {
+      console.error("Failed to load active appointments", err);
+    }
+  };
+
   const safeInvoke = async (method, ...args) => {
     if (!connectionRef.current || connectionRef.current.state !== signalR.HubConnectionState.Connected) {
       setErrorMessage("Realtime connection is not ready.");
@@ -411,6 +419,9 @@ const AppointmentPage = () => {
     const ok = await safeInvoke("CreateAppointmentWithDoctor", dto, backendRoomType);
     if (!ok) {
       setLoadingState((prev) => ({ ...prev, creating: false }));
+    } else {
+      await loadActiveAppointments();
+      setLoadingState((prev) => ({ ...prev, creating: false }));
     }
   };
 
@@ -629,7 +640,7 @@ const AppointmentPage = () => {
               <div className="appointment-grid">
                 <div className="appointment-field">
                   <label>Patient</label>
-                  <input value={selectedPatient?.name || "-"} readOnly />
+                  <input value={selectedPatient?.email || "-"} readOnly />
                 </div>
                 <div className="appointment-field">
                   <label>Department</label>
