@@ -953,8 +953,9 @@ export default function ManageDoctors() {
                           <option value="">Select room</option>
                           {roomsForWork.map((r) => (
                             <option key={r.id} value={String(r.id)}>
-                              #{r.number}
+                              #{r.number ?? r.roomNumber}
                               {r.departmentName ? ` (${r.departmentName})` : ""}
+                              {r.roomType ? ` - ${r.roomType}` : (r.type ? ` - ${r.type}` : "")}
                             </option>
                           ))}
                         </select>

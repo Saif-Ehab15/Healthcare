@@ -127,9 +127,8 @@ export default function PatientBills() {
 
                 <div className="invoice-details-grid">
                   <div className="detail-column">
-                    <span className="detail-label">Patient Details</span>
+                    <span className="detail-label">Patient Name</span>
                     <h4 className="detail-value">{bill.patientName}</h4>
-                    <p className="detail-subtext">ID: {bill.PatientId}</p>
                   </div>
                   <div className="detail-column">
                     <span className="detail-label">Date Issued</span>

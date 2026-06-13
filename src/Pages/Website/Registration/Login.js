@@ -81,7 +81,7 @@ export default function Login() {
                 />
 
                 <form className="register-form" onSubmit={handleSubmit}>
-                    <h2 className="form-title">Login to Your Account</h2>
+                    <h2 className="register-form-title">Login to Your Account</h2>
 
                     <label>Email</label>
                     <input

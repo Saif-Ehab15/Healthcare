@@ -38,6 +38,7 @@ import PatientBills from './Pages/Website/Patient_Bills/Patient_Bills';
 import ManageBills from './Pages/Dashboard/Admin_Dash/ManageBills';
 import ManagePrices from './Pages/Dashboard/Admin_Dash/ManagePrices';
 import StaffManageBills from './Pages/Dashboard/Staff_Dash/StaffManageBills';
+import ManageShifts from './Pages/Dashboard/Admin_Dash/ManageShifts';
 
 
 function App() {
@@ -89,6 +90,7 @@ function App() {
           <Route path='admin-all-rooms' element={<AdminAllRooms />} />
           <Route path='patients_bills' element={<ManageBills />} />
           <Route path='manage_prices' element={<ManagePrices />} />
+          <Route path='manage-shifts' element={<ManageShifts />} />
           <Route path='admin-all-rooms/ICUadmin' element={<ICUadmin />} />
           <Route path='admin-all-rooms/RoomsAdmin' element={<RoomsAdmin />} />
           <Route path='admin-all-rooms/EmergencyAdmin' element={<EmergencyAdmin />} />

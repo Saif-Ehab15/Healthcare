@@ -143,7 +143,7 @@ export default function Signup() {
         <ToastContainer position="top-center" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick pauseOnHover draggable stacked />
 
         <form className="register-form" onSubmit={handleSubmit}>
-          <h2 className="form-title">Create Your Account</h2>
+          <h2 className="register-form-title">Create Your Account</h2>
 
           <label>Username</label>
           <input type="text" name="username" value={form.username} onChange={handleChange} placeholder="Enter Your Username" />

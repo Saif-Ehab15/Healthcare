@@ -494,13 +494,6 @@ const DoctorProfile = () => {
                         Slots: {apt.slots}
                       </span>
                     </div>
-
-                    <button
-                      className="btn-delete"
-                      onClick={() => handleDeleteAppointment(apt.id)}
-                    >
-                      🗑️
-                    </button>
                   </div>
                 ))
               ) : (
