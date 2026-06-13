@@ -133,7 +133,7 @@ export default function ManageDoctors() {
       return;
     }
     try {
-      const res = await axiosInstance.get(`/api/Room/department/${did}`);
+      const res = await axiosInstance.get(`/api/Room/department/${did}/type`);
       setRoomsForWork(Array.isArray(res.data) ? res.data : []);
     } catch (error) {
       console.error("Failed to fetch rooms:", error);
@@ -869,7 +869,7 @@ export default function ManageDoctors() {
                       </span>
 
                       <span className={styles.infoValue}>
-                        {doc.departmentId}
+                        {doc.department}
                       </span>
                     </div>
                   )}
