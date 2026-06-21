@@ -193,7 +193,7 @@ export default function Homepage() {
 
             <hr className="divider" />
 
-            {/* Doctors */}
+            {/* Doctors
             <div className="marquee-container">
                 <h2 className="marquee-title">Meet Our Top Specialists</h2>
 
@@ -202,7 +202,7 @@ export default function Homepage() {
                         <DoctorCard key={doctor.id} {...doctor} />
                     ))}
                 </Marquee>
-            </div>
+            </div> */}
 
             <ChatbotWidget />
 
